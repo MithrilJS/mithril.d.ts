@@ -43,7 +43,7 @@ declare namespace Mithril {
 	}
 
 	interface Request {
-		request(options: RequestOptions): Stream;
+		(options: RequestOptions): Stream;
 	}
 
 	interface RequestService {
@@ -78,7 +78,7 @@ declare namespace Mithril {
 		prop: StreamFactory;
 		render: Render;
 		redraw: Publish;
-		request: RequestService;
+		request: Request;
 		jsonp: Jsonp;
 		version: string;
 	}
@@ -184,18 +184,18 @@ declare module 'mithril/stream' {
 }
 
 declare module 'mithril/render' {
-	const render: Mithril.Render;
-	export = render;
+	const renderService: Mithril.RenderService;
+	export = renderService;
 }
 
 declare module 'mithril/redraw' {
-	const redraw: Mithril.Publish;
-	export = redraw;
+	const redrawService: Mithril.RedrawService;
+	export = redrawService;
 }
 
 declare module 'mithril/request' {
-	const request: Mithril.Request;
-	export = request;
+	const requestService: Mithril.RequestService;
+	export = requestService;
 }
 
 declare module 'mithril' {
