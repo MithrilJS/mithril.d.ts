@@ -38,8 +38,8 @@ declare namespace Mithril {
 		combine(combiner: any, streams: Stream[]): Stream;
 		reject(value: any): Stream;
 		merge(streams: any[]): Stream;
-		HALT: any;
 		run(callback: (value: any) => void): Stream;
+		HALT: any;
 	}
 
 	interface Request {
@@ -116,9 +116,9 @@ declare namespace Mithril {
 		view: (vnode: Vnode) => Vnode | Vnode[];
 		oninit?: (vnode: Vnode) => void;
 		oncreate?: (vnode: Vnode) => void;
-		onbeforeremove?: (vnode: Vnode) => void;
+		onbeforeremove?: (vnode: Vnode, done?: () => void) => void;
 		onremove?: (vnode: Vnode) => void;
-		onbeforeupdate?: (vnode: Vnode) => void;
+		onbeforeupdate?: (vnode: Vnode, old: Vnode) => boolean;
 		onupdate?: (vnode: Vnode) => void;
 		[property: string]: any;
 	}
