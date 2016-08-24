@@ -31,6 +31,7 @@ declare namespace Mithril {
 
 	interface Stream {
 		(): any;
+		run(callback: (data: any) => void): any;
 	}
 
 	interface StreamFactory {
