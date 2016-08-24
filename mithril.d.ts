@@ -29,22 +29,33 @@ declare namespace Mithril {
 		(name: string, callback: (value: any) => boolean, thisArg?: any): (e: Event) => boolean;
 	}
 
-	interface Stream {
-		(): any;
-		run(callback: (data: any) => void): any;
+	type Unary<T,U> = (input: T) => U;
+
+	interface Functor<T> {
+		map<U>(f: Unary<T,U>): Functor<U>;
+		ap?(f: Functor<T>): Functor<T>;
+	}
+
+	interface Stream<T> {
+		(): T;
+		(value: T): this;
+		run(callback: (value: T) => void): void;
+		map<U>(f: (value: T) => U): Stream<U>;
+		ap(f: Functor<T>): Functor<T>;
+		end: Stream<boolean>;
 	}
 
 	interface StreamFactory {
-		(value?: any): Stream;
-		combine(combiner: any, streams: Stream[]): Stream;
-		reject(value: any): Stream;
-		merge(streams: any[]): Stream;
-		run(callback: (value: any) => void): Stream;
+		<T>(T?: any): Stream<T>;
+		combine<T>(combiner: any, streams: Stream<T>[]): Stream<T>;
+		reject<T>(value: T): Stream<T>;
+		merge<T>(streams: Stream<T>[]): Stream<T>;
+		run<T>(callback: (value: T) => void): Stream<T>;
 		HALT: any;
 	}
 
 	interface Request {
-		(options: RequestOptions): Stream;
+		<T>(options: RequestOptions): Stream<T>;
 	}
 
 	interface RequestService {
@@ -69,7 +80,7 @@ declare namespace Mithril {
 	}
 
 	interface Jsonp {
-		(options: JsonpOptions): Stream;
+		<T>(options: JsonpOptions): Stream<T>;
 	}
 
 	interface Static extends Hyperscript {
