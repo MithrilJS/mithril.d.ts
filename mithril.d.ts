@@ -39,14 +39,16 @@ declare namespace Mithril {
 	interface Stream<T> {
 		(): T;
 		(value: T): this;
-		run(callback: (value: T) => void): void;
-		map<U>(f: (value: T) => U): Stream<U>;
+		run(tf: (current: T) => void): Stream<T>;
+		run<U>(tf: (current: T) => void): Stream<U>;
+		run<U>(tf: (current: T) => Stream<U>): Stream<U>;
+		map<U>(tf: (current: T) => U): Stream<U>;
 		ap(f: Functor<T>): Functor<T>;
 		end: Stream<boolean>;
 	}
 
 	interface StreamFactory {
-		<T>(T?: any): Stream<T>;
+		<T>(val?: T): Stream<T>;
 		combine<T>(combiner: any, streams: Stream<T>[]): Stream<T>;
 		reject<T>(value: T): Stream<T>;
 		merge<T>(streams: Stream<T>[]): Stream<T>;
