@@ -10,6 +10,7 @@ declare namespace Mithril {
 	interface Hyperscript {
 		(selector: string, ...children: any[]): Vnode;
 		(component: Component, ...children: Hargs[]): Vnode;
+		fragment(attrs: any, children: any[]): Vnode;
 		trust(html: string): TrustedString;
 	}
 
@@ -26,6 +27,7 @@ declare namespace Mithril {
 	}
 
 	interface WithAttr {
+		<T>(name: string, stream: Stream<T>, thisArg?: any): (e: Event) => boolean;
 		(name: string, callback: (value: any) => boolean, thisArg?: any): (e: Event) => boolean;
 	}
 
@@ -137,6 +139,50 @@ declare namespace Mithril {
 		[property: string]: any;
 	}
 
+	///////////////////////////////////////////////////////////
+	// Possible typed Component solution...
+	/*
+	interface TypedVnode<TState extends {}, TAttrs extends {}> {
+	state: TState
+	attrs: TAttrs
+
+	// .. and other stuff too
+	}
+
+	interface TypedComponent<TState extends {}, TAttrs extends {}> {
+	oninit?: (vnode: TypedVnode<TState, TAttrs>) => void
+	view: (vnode: TypedVnode<TState, TAttrs>) => any // whatever the mithril vnode type is
+
+	// .. another other stuff too
+	}
+
+	interface MyState {
+		name: string
+		age: number
+	}
+
+	interface MyAttrs {
+		something: MyState[]
+	}
+
+	const component: TypedComponent<MyState, MyAttrs> = {
+		oninit({ state }) {
+			state.name // fine
+			state.bar // type error
+		},
+
+		view({ state, attrs }) {
+			state.name // fine
+			state.nane // error
+
+			attrs.something // fine
+			attrs.sonething // error
+			return []
+		}
+	}
+	*/
+	///////////////////////////////////////////////////////////
+
 	interface RouteOptions {
 		replace?: boolean;
 	}
@@ -172,24 +218,31 @@ declare namespace Mithril {
 	}
 }
 
+declare module 'mithril' {
+	const m: Mithril.Static;
+	export = m;
+}
+
 declare module 'mithril/hyperscript' {
 	const h: Mithril.Hyperscript;
 	export = h;
 }
 
-declare module 'mithril/route' {
-	const route: Mithril.Route;
-	export = route;
+declare module 'mithril/util/withAttr' {
+	const withAttr: Mithril.WithAttr;
+	export = withAttr;
 }
 
+/*
+// These sub-modules won't likely work if imported directly...
 declare module 'mithril/mount' {
 	const mount: Mithril.Mount;
 	export = mount;
 }
 
-declare module 'mithril/util/withAttr' {
-	const withAttr: Mithril.WithAttr;
-	export = withAttr;
+declare module 'mithril/route' {
+	const route: Mithril.Route;
+	export = route;
 }
 
 declare module 'mithril/stream' {
@@ -211,8 +264,4 @@ declare module 'mithril/request' {
 	const requestService: Mithril.RequestService;
 	export = requestService;
 }
-
-declare module 'mithril' {
-	const m: Mithril.Static;
-    export = m;
-}
+*/
