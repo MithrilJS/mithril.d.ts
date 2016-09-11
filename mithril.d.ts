@@ -45,6 +45,7 @@ declare namespace Mithril {
 		run<U>(tf: (current: T) => void): Stream<U>;
 		run<U>(tf: (current: T) => Stream<U>): Stream<U>;
 		map<U>(tf: (current: T) => U): Stream<U>;
+		catch(tf: (current: T) => void): Stream<T>;
 		ap(f: Functor<T>): Functor<T>;
 		end: Stream<boolean>;
 	}
@@ -129,7 +130,10 @@ declare namespace Mithril {
 	}
 
 	interface Component {
-		view: (vnode: Vnode) => Vnode | Vnode[];
+		// Note: this return type requires TS 2.0
+		view: (vnode: Vnode) => Vnode | (Vnode | null)[] | null;
+		// For TS 1.x
+		//view: (vnode: Vnode) => Vnode | Vnode[];
 		oninit?: (vnode: Vnode) => void;
 		oncreate?: (vnode: Vnode) => void;
 		onbeforeremove?: (vnode: Vnode, done?: () => void) => void;
@@ -194,7 +198,7 @@ declare namespace Mithril {
 
 	interface RequestOptions {
 		url: string;
-		method?: string;
+		method: string;
 		data?: any;
 		async?: boolean;
 		user?: string;
@@ -203,7 +207,7 @@ declare namespace Mithril {
 		type?: any;
 		serialize?: (data: any) => string;
 		deserialze?: (str: string) => any;
-		extract?: (xhr: any, options?: any) => string;
+		extract?: (xhr: XMLHttpRequest, options?: any) => string;
 		initialValue?: any;
 		useBody?: boolean;
 	}
