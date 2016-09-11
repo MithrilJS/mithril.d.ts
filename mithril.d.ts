@@ -3,7 +3,7 @@
 // Definitions by: Mike Linkovich <https://github.com/spacejack>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-// Typescript 1.8.10
+// Typescript 2.0.2
 
 declare namespace Mithril {
 
