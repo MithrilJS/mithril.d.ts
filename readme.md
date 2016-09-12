@@ -36,7 +36,7 @@ If you need to use TypeScript 1.x, the return type for `Component.view()` would 
 	}
 
 	// Usage:
-	m.mount(element, adder)
+	m.mount(element, {view() {return m(adder, {initialSum: 1})}})
 
 ---
 
