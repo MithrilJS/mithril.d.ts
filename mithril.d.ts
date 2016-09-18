@@ -14,8 +14,21 @@ declare namespace Mithril {
 		trust(html: string): TrustedString;
 	}
 
+	interface RouteResolver {
+		render?: (vnode: Mithril.Vnode) => Mithril.Vnode
+		onmatch?: (resolve: (c: Component) => void, args: any, path: any) => void
+	}
+
+	interface RouteDefs {
+		[url: string]: Component | RouteResolver
+	}
+
+	interface RouteOptions {
+		replace?: boolean;
+	}
+
 	interface Route {
-		(el: HTMLElement, basePath: string, routes: {[url: string]: Component}): void;
+		(element: HTMLElement, defaultRoute: string, routes: RouteDefs): void;
 		get(): string;
 		set(route: string, data?: any, options?: RouteOptions): void;
 		prefix(urlFragment: string): void;
@@ -23,7 +36,7 @@ declare namespace Mithril {
 	}
 
 	interface Mount {
-		(el: Element, component: Component): void;
+		(element: Element, component: Component): void;
 	}
 
 	interface WithAttr {
@@ -143,54 +156,6 @@ declare namespace Mithril {
 		[property: string]: any;
 	}
 
-	///////////////////////////////////////////////////////////
-	// Possible typed Component solution...
-	/*
-	interface TypedVnode<TState extends {}, TAttrs extends {}> {
-	state: TState
-	attrs: TAttrs
-
-	// .. and other stuff too
-	}
-
-	interface TypedComponent<TState extends {}, TAttrs extends {}> {
-	oninit?: (vnode: TypedVnode<TState, TAttrs>) => void
-	view: (vnode: TypedVnode<TState, TAttrs>) => any // whatever the mithril vnode type is
-
-	// .. another other stuff too
-	}
-
-	interface MyState {
-		name: string
-		age: number
-	}
-
-	interface MyAttrs {
-		something: MyState[]
-	}
-
-	const component: TypedComponent<MyState, MyAttrs> = {
-		oninit({ state }) {
-			state.name // fine
-			state.bar // type error
-		},
-
-		view({ state, attrs }) {
-			state.name // fine
-			state.nane // error
-
-			attrs.something // fine
-			attrs.sonething // error
-			return []
-		}
-	}
-	*/
-	///////////////////////////////////////////////////////////
-
-	interface RouteOptions {
-		replace?: boolean;
-	}
-
 	interface TrustedString extends String {
 		/** @private Implementation detail. Don't depend on it. */
 		$trusted: boolean;
@@ -236,36 +201,3 @@ declare module 'mithril/util/withAttr' {
 	const withAttr: Mithril.WithAttr;
 	export = withAttr;
 }
-
-/*
-// These sub-modules won't likely work if imported directly...
-declare module 'mithril/mount' {
-	const mount: Mithril.Mount;
-	export = mount;
-}
-
-declare module 'mithril/route' {
-	const route: Mithril.Route;
-	export = route;
-}
-
-declare module 'mithril/stream' {
-	const streamFactory: Mithril.StreamFactory;
-	export = streamFactory;
-}
-
-declare module 'mithril/render' {
-	const renderService: Mithril.RenderService;
-	export = renderService;
-}
-
-declare module 'mithril/redraw' {
-	const redrawService: Mithril.RedrawService;
-	export = redrawService;
-}
-
-declare module 'mithril/request' {
-	const requestService: Mithril.RequestService;
-	export = requestService;
-}
-*/
