@@ -16,10 +16,9 @@ const comp1: Mithril.Component = {
 
 ///////////////////////////////////////////////////////////
 // 2.
-// Must extend Lifecycle so that parent component
-// can use `onremove` lifecycle method.
+// With typed attrs
 //
-interface Comp2Attrs extends Mithril.Lifecycle<Comp2Attrs,{}> {
+interface Comp2Attrs {
 	title: string
 	description: string
 }
@@ -49,7 +48,7 @@ const comp3: Mithril.TComponent<{pageHead: string},{}> = {
 					// attrs is type checked - nice!
 					title: "A Title",
 					description: "Some descriptive text.",
-					onremove: () => {
+					onremove: (vnode) => {
 						console.log("comp2 was removed")
 					},
 				}
@@ -75,7 +74,7 @@ type Comp4 = Mithril.TComponent<Comp4Attrs,Comp4State> & Comp4State
 //interface Comp4 extends Mithril.Component<Comp4Attrs,Comp4State>, Comp4State {}
 
 const comp4: Comp4 = {
-	count: 0, // <- Must be declared to satisfy Comp4State
+	count: 0, // <- Must be declared to satisfy Comp4 type which includes Comp4State type
 	oninit() {
 		this.count = 0
 	},
@@ -94,6 +93,28 @@ const comp4: Comp4 = {
 
 ///////////////////////////////////////////////////////////
 // 5.
+// Stateful component (Equivalent to Comp4 example.)
+// Avoids the use of `this` completely; state manipulated
+// through vnode.state.
+//
+const comp5: Mithril.TComponent<Comp4Attrs,Comp4State> = {
+	oninit ({state}) {
+		state.count = 0
+	},
+	view ({attrs, state}) {
+		return [
+			m('h1', `This ${attrs.name} has been clicked ${state.count} times`),
+			m('button',
+				{
+					onclick: () => state.count += 1
+				},
+			"Click me")
+		]
+	}
+}
+
+///////////////////////////////////////////////////////////
+// 6.
 // Concise module example with default export
 //
 interface Attrs {

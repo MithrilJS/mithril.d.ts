@@ -18,7 +18,7 @@ declare namespace Mithril {
 
 	interface Hyperscript {
 		(selector: string, ...children: any[]): Vnode<any,any>;
-		<A,S>(component: TComponent<A,S>, a?: A, ...children: any[]): Vnode<A,S>;
+		<A,S>(component: TComponent<A,S>, a?: A & Lifecycle<A,S>, ...children: any[]): Vnode<A,S>;
 		fragment(attrs: any, children: any[]): Vnode<any,any>;
 		trust(html: string): TrustedString;
 	}
@@ -136,7 +136,7 @@ declare namespace Mithril {
 	type Children = Child | ChildArray;
 
 	/** Mithril Vnode type */
-	interface Vnode<A extends Lifecycle<A,S>, S extends Lifecycle<A,S>> {
+	interface Vnode<A, S extends Lifecycle<A,S>> {
 		tag: string | TComponent<A,S>;
 		attrs: A;
 		state: S;
@@ -147,7 +147,7 @@ declare namespace Mithril {
 		events?: any;
 	}
 
-	interface TComponent<A extends Lifecycle<A,S>, S extends Lifecycle<A,S>> extends Lifecycle<A,S> {
+	interface TComponent<A, S extends Lifecycle<A,S>> extends Lifecycle<A,S> {
 		view: (this: S, vnode: Vnode<A,S>) => Vnode<A,S> | (Vnode<A,S> | null)[] | null;
 	}
 
