@@ -91,3 +91,22 @@ const comp4: Comp4 = {
 		]
 	}
 }
+
+///////////////////////////////////////////////////////////
+// 5.
+// Concise module example with default export
+//
+interface Attrs {
+	name: string
+}
+
+interface State {
+	count: number
+}
+
+export default {
+	count: 0,
+	view ({attrs}) {
+		return m('span', `name: ${attrs.name}, count: ${this.count}`)
+	}
+} as Mithril.TComponent<Attrs,State> & State
