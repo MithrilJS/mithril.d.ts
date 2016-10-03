@@ -67,6 +67,7 @@ interface Comp4Attrs {
 
 interface Comp4State {
 	count: number
+	add: (this: Comp4State, num: number) => void
 }
 
 // Either of these two Comp4 defs will work:
@@ -75,6 +76,10 @@ type Comp4 = Mithril.TComponent<Comp4Attrs,Comp4State> & Comp4State
 
 const comp4: Comp4 = {
 	count: 0, // <- Must be declared to satisfy Comp4 type which includes Comp4State type
+	add (num) {
+		// num and this types inferred
+		this.count += num
+	},
 	oninit() {
 		this.count = 0
 	},
@@ -84,7 +89,7 @@ const comp4: Comp4 = {
 			m('button',
 				{
 					// 'this' is typed!
-					onclick: () => this.count += 1
+					onclick: () => this.add(1)
 				},
 			"Click me")
 		]
@@ -100,13 +105,14 @@ const comp4: Comp4 = {
 const comp5: Mithril.TComponent<Comp4Attrs,Comp4State> = {
 	oninit ({state}) {
 		state.count = 0
+		state.add = num => {state.count += num}
 	},
 	view ({attrs, state}) {
 		return [
 			m('h1', `This ${attrs.name} has been clicked ${state.count} times`),
 			m('button',
 				{
-					onclick: () => state.count += 1
+					onclick: () => {state.add(1)}
 				},
 			"Click me")
 		]
