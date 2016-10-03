@@ -1,0 +1,22 @@
+{
+  "name": "mithril.d.ts",
+  "version": "1.0.0",
+  "description": "Requires TypeScript 2.x.",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spacejack/mithril.d.ts.git"
+  },
+  "author": "spacejack",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/spacejack/mithril.d.ts/issues"
+  },
+  "homepage": "https://github.com/spacejack/mithril.d.ts#readme",
+  "devDependencies": {
+    "typescript": "^2.0.3"
+  }
+}

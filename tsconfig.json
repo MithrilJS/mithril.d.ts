@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": ["es2015", "dom"],
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "preserveConstEnums": true,
+    "removeComments": false,
+    "noLib": false,
+    "declaration": false,
+    "sourceMap": false,
+    "strictNullChecks": true,
+    "noImplicitThis": true
+  },
+  "filesGlob": ["*.ts"],
+  "atom": {
+    "rewriteTsconfig": false
+  }
+}

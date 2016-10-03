@@ -3,20 +3,29 @@
 // Definitions by: Mike Linkovich <https://github.com/spacejack>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-// Typescript 2.0.2
+// Typescript 2.0
 
 declare namespace Mithril {
 
+	interface Lifecycle<A,S> {
+		oninit?: (this: S, vnode: Vnode<A,S>) => void,
+		oncreate?: (this: S, vnode: Vnode<A,S>) => void,
+		onbeforeremove?: (this: S, vnode: Vnode<A,S>, done: () => void) => void,
+		onremove?: (this: S, vnode: Vnode<A,S>) => void,
+		onbeforeupdate?: (this: S, vnode: Vnode<A,S>, old: Vnode<A,S>) => boolean,
+		onupdate?: (this: S, vnode: Vnode<A,S>) => void
+	}
+
 	interface Hyperscript {
-		(selector: string, ...children: any[]): Vnode;
-		(component: Component, ...children: Hargs[]): Vnode;
-		fragment(attrs: any, children: any[]): Vnode;
+		(selector: string, ...children: any[]): Vnode<any,any>;
+		<A,S>(component: TComponent<A,S>, a?: A, ...children: any[]): Vnode<A,S>;
+		fragment(attrs: any, children: any[]): Vnode<any,any>;
 		trust(html: string): TrustedString;
 	}
 
 	interface RouteResolver {
-		render?: (vnode: Mithril.Vnode) => Mithril.Vnode
-		onmatch?: (resolve: (c: Component) => void, args: any, path: any) => void
+		render?: (vnode: Mithril.Vnode<any,any>) => Mithril.Vnode<any,any>
+		onmatch?: (resolve: (c: Component) => void, args: any, path?: string) => void
 	}
 
 	interface RouteDefs {
@@ -32,7 +41,7 @@ declare namespace Mithril {
 		get(): string;
 		set(route: string, data?: any, options?: RouteOptions): void;
 		prefix(urlFragment: string): void;
-		link(vnode: Vnode): (e: Event) => void;
+		link(vnode: Vnode<any,any>): (e: Event) => void;
 	}
 
 	interface Mount {
@@ -82,7 +91,7 @@ declare namespace Mithril {
 	}
 
 	interface Render {
-		(el: Element, vnodes: Vnode | Vnode[]): void;
+		(el: Element, vnodes: Vnode<any,any> | Vnode<any,any>[]): void;
 	}
 
 	interface RenderService {
@@ -121,40 +130,28 @@ declare namespace Mithril {
 		[property: string]: any;
 	}
 
-	type Harg = string | Vnode | Attributes;
-	interface HargsArray extends Array<Hargs> {}
-	type Hargs = Harg | HargsArray;
-
 	// Vnode children types
-	type Child = string | number | boolean | Vnode;
+	type Child = string | number | boolean | Vnode<any,any>;
 	interface ChildArray extends Array<Children> {}
 	type Children = Child | ChildArray;
 
 	/** Mithril Vnode type */
-	interface Vnode {
-		tag: string | Component;
+	interface Vnode<A extends Lifecycle<A,S>, S extends Lifecycle<A,S>> {
+		tag: string | TComponent<A,S>;
+		attrs: A;
+		state: S;
 		key?: string;
-		attrs?: any;
 		children?: Children[];
 		dom?: Element;
 		domSize?: number;
-		state: any;
 		events?: any;
 	}
 
-	interface Component {
-		// Note: this return type requires TS 2.0
-		view: (vnode: Vnode) => Vnode | (Vnode | null)[] | null;
-		// For TS 1.x
-		//view: (vnode: Vnode) => Vnode | Vnode[];
-		oninit?: (vnode: Vnode) => void;
-		oncreate?: (vnode: Vnode) => void;
-		onbeforeremove?: (vnode: Vnode, done?: () => void) => void;
-		onremove?: (vnode: Vnode) => void;
-		onbeforeupdate?: (vnode: Vnode, old: Vnode) => boolean;
-		onupdate?: (vnode: Vnode) => void;
-		[property: string]: any;
+	interface TComponent<A extends Lifecycle<A,S>, S extends Lifecycle<A,S>> extends Lifecycle<A,S> {
+		view: (this: S, vnode: Vnode<A,S>) => Vnode<A,S> | (Vnode<A,S> | null)[] | null;
 	}
+
+	interface Component extends TComponent<any,any> {}
 
 	interface TrustedString extends String {
 		/** @private Implementation detail. Don't depend on it. */
