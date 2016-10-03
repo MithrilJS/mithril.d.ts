@@ -149,7 +149,7 @@ declare namespace Mithril {
 
 	/** Component with typed vnode state & attrs */
 	interface TComponent<A, S extends Lifecycle<A,S>> extends Lifecycle<A,S> {
-		view: (this: S, vnode: Vnode<A,S>) => Vnode<A,S> | (Vnode<A,S> | null)[] | null;
+		view: (this: S, vnode: Vnode<A,S>) => Vnode<any,any> | (Vnode<any,any> | null)[] | null;
 	}
 
 	/** Component with untyped vnode state & attrs */
