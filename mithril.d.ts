@@ -49,8 +49,8 @@ declare namespace Mithril {
 	}
 
 	interface WithAttr {
-		<T>(name: string, stream: Stream<T>, thisArg?: any): (e: {currentTarget: any}) => boolean;
-		(name: string, callback: (value: any) => boolean, thisArg?: any): (e: {currentTarget: any}) => boolean;
+		<T>(name: string, stream: Stream<T>, thisArg?: any): (e: {currentTarget: any, [p: string]: any}) => boolean;
+		(name: string, callback: (value: any) => boolean, thisArg?: any): (e: {currentTarget: any, [p: string]: any}) => boolean;
 	}
 
 	interface ParseQueryString {
@@ -147,7 +147,7 @@ declare namespace Mithril {
 		attrs: A;
 		state: S;
 		key?: string;
-		children?: Vnode<A,S>[];
+		children?: Vnode<any,any>[];
 		dom?: Element;
 		domSize?: number;
 		events?: any;
