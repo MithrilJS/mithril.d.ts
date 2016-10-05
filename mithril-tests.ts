@@ -136,14 +136,16 @@ interface User {
 	fullName: string
 }
 
+// Perform request, transform UserRow -> User
 const user: Mithril.Stream<User> = m.request<UserRow>({
 	url: '/api/users/1',
 	method: 'get',
 	initialValue: {
-		// must be user type
+		// must be UserRow type
 		id: 0, userName: '', firstName: '', lastName: ''
 	}
 }).run<User>(row =>({
+	// Must be User type
 	id: row.id, userName: row.userName, fullName: row.firstName + ' ' + row.lastName
 }))
 
