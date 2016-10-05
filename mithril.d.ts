@@ -20,7 +20,7 @@ declare namespace Mithril {
 		(selector: string, ...children: any[]): Vnode<any,any>;
 		<A,S>(component: TComponent<A,S>, a?: (A & Lifecycle<A,S>) | Children, ...children: Children[]): Vnode<A,S>;
 		fragment(attrs: any, children: any[]): Vnode<any,any>;
-		trust(html: string): TrustedString;
+		trust(html: string): Vnode<any,any>;
 	}
 
 	interface RouteResolver {
@@ -49,8 +49,16 @@ declare namespace Mithril {
 	}
 
 	interface WithAttr {
-		<T>(name: string, stream: Stream<T>, thisArg?: any): (e: Event) => boolean;
-		(name: string, callback: (value: any) => boolean, thisArg?: any): (e: Event) => boolean;
+		<T>(name: string, stream: Stream<T>, thisArg?: any): (e: {currentTarget: any}) => boolean;
+		(name: string, callback: (value: any) => boolean, thisArg?: any): (e: {currentTarget: any}) => boolean;
+	}
+
+	interface ParseQueryString {
+		(queryString: string): any;
+	}
+
+	interface BuildQueryString {
+		(values: any): string;
 	}
 
 	type Unary<T,U> = (input: T) => U;
@@ -123,16 +131,10 @@ declare namespace Mithril {
 		redraw: Publish;
 		request: Request;
 		jsonp: Jsonp;
+		parseQueryString: ParseQueryString;
+		buildQueryString: BuildQueryString;
 		version: string;
 	}
-
-	// Parameter types for m(component, ...)
-	/*interface Attributes {
-		className?: string;
-		class?: string;
-		key?: string | number;
-		[property: string]: any;
-	}*/
 
 	// Vnode children types
 	type Child = string | number | boolean | Vnode<any,any>;
@@ -145,7 +147,7 @@ declare namespace Mithril {
 		attrs: A;
 		state: S;
 		key?: string;
-		children?: Children[];
+		children?: Vnode<A,S>[];
 		dom?: Element;
 		domSize?: number;
 		events?: any;
@@ -153,16 +155,11 @@ declare namespace Mithril {
 
 	/** Component with typed vnode state & attrs */
 	interface TComponent<A, S extends Lifecycle<A,S>> extends Lifecycle<A,S> {
-		view: (this: S, vnode: Vnode<A,S>) => Vnode<any,any> | (Vnode<any,any> | null)[] | null;
+		view: (this: S, vnode: Vnode<A,S>) => Vnode<any,any> | (Vnode<any,any> | void)[] | void;
 	}
 
 	/** Component with untyped vnode state & attrs */
 	interface Component extends TComponent<any,any> {}
-
-	interface TrustedString extends String {
-		/** @private Implementation detail. Don't depend on it. */
-		$trusted: boolean;
-	}
 
 	interface RequestOptions<T> {
 		url: string;
