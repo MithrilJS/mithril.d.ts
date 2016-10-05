@@ -63,26 +63,30 @@ declare namespace Mithril {
 	interface Stream<T> {
 		(): T;
 		(value: T): this;
-		run(tf: (current: T) => void): Stream<T>;
-		run<U>(tf: (current: T) => void): Stream<U>;
-		run<U>(tf: (current: T) => Stream<U>): Stream<U>;
-		map<U>(tf: (current: T) => U): Stream<U>;
-		catch(tf: (current: T) => void): Stream<T>;
+		run(f: (current: T) => Stream<T> | T | void): Stream<T>;
+		run<U>(f: (current: T) => Stream<U> | U): Stream<U>;
+		map(f: (current: T) => Stream<T> | T | void): Stream<T>;
+		map<U>(f: (current: T) => Stream<U> | U): Stream<U>;
+		catch(f: (current: T) => T | void): Stream<T>;
+		catch<U>(f: (current: T) => U): Stream<U>;
+		of(val?: T): Stream<T>;
 		ap(f: Functor<T>): Functor<T>;
 		end: Stream<boolean>;
+		error: Stream<any>
 	}
+
+	type StreamCombiner<T> = (...streams: any[]) => T
 
 	interface StreamFactory {
 		<T>(val?: T): Stream<T>;
-		combine<T>(combiner: any, streams: Stream<T>[]): Stream<T>;
+		combine<T>(combiner: StreamCombiner<T>, ...streams: (Stream<any> | Stream<any>[])[]): Stream<T>;
 		reject<T>(value: T): Stream<T>;
-		merge<T>(streams: Stream<T>[]): Stream<T>;
-		run<T>(callback: (value: T) => void): Stream<T>;
+		merge(streams: Stream<any>[]): Stream<any[]>;
 		HALT: any;
 	}
 
 	interface Request {
-		<T>(options: RequestOptions): Stream<T>;
+		<T>(options: RequestOptions<T>): Stream<T>;
 	}
 
 	interface RequestService {
@@ -107,7 +111,7 @@ declare namespace Mithril {
 	}
 
 	interface Jsonp {
-		<T>(options: JsonpOptions): Stream<T>;
+		<T>(options: JsonpOptions<T>): Stream<T>;
 	}
 
 	interface Static extends Hyperscript {
@@ -123,12 +127,12 @@ declare namespace Mithril {
 	}
 
 	// Parameter types for m(component, ...)
-	interface Attributes {
+	/*interface Attributes {
 		className?: string;
 		class?: string;
 		key?: string | number;
 		[property: string]: any;
-	}
+	}*/
 
 	// Vnode children types
 	type Child = string | number | boolean | Vnode<any,any>;
@@ -160,7 +164,7 @@ declare namespace Mithril {
 		$trusted: boolean;
 	}
 
-	interface RequestOptions {
+	interface RequestOptions<T> {
 		url: string;
 		method: string;
 		data?: any;
@@ -169,18 +173,18 @@ declare namespace Mithril {
 		password?: string;
 		config?: any;
 		type?: any;
-		serialize?: (data: any) => string;
-		deserialze?: (str: string) => any;
-		extract?: (xhr: XMLHttpRequest, options?: any) => string;
-		initialValue?: any;
+		serialize?: (data: T) => string;
+		deserialze?: (str: string) => T;
+		extract?: (xhr: XMLHttpRequest, options: RequestOptions<T>) => string;
+		initialValue?: T;
 		useBody?: boolean;
 	}
 
-	interface JsonpOptions {
+	interface JsonpOptions<T> {
 		url: string;
 		data?: any;
-		type?: any;
-		initialValue?: any;
+		type?: new <U>(data: U) => T;
+		initialValue?: T;
 		callbackName?: string;
 		callbackKey?: string;
 	}

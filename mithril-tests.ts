@@ -120,7 +120,54 @@ const comp5: Mithril.TComponent<Comp4Attrs,Comp4State> = {
 }
 
 ///////////////////////////////////////////////////////////
-// 6.
+//
+// request and stream
+//
+interface UserRow {
+	id: number
+	userName: string
+	firstName: string
+	lastName: string
+}
+
+interface User {
+	id: number
+	userName: string
+	fullName: string
+}
+
+const user: Mithril.Stream<User> = m.request<UserRow>({
+	url: '/api/users/1',
+	method: 'get',
+	initialValue: {
+		// must be user type
+		id: 0, userName: '', firstName: '', lastName: ''
+	}
+}).run<User>(row =>({
+	id: row.id, userName: row.userName, fullName: row.firstName + ' ' + row.lastName
+}))
+
+///////////////////////////////////////////////////////////
+//
+// Streams
+//
+const stream1 = m.prop('a')
+const stream2 = m.prop('b')
+const stream3 = m.prop('c')
+
+// not easy to infer combiner types
+const combinedStream = m.prop.combine<string>(
+	(
+		_s1: Mithril.Stream<string>, _s2: Mithril.Stream<string>, _s3: Mithril.Stream<string>,
+		changed: Mithril.Stream<string>[]
+	) => 'd',
+	stream1, [stream2, stream3]
+)
+
+const mergedStream = m.prop.merge([stream1, stream2, stream3])
+
+///////////////////////////////////////////////////////////
+//
 // Concise module example with default export
 //
 interface Attrs {
