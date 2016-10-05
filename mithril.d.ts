@@ -58,7 +58,7 @@ declare namespace Mithril {
 	}
 
 	interface BuildQueryString {
-		(values: any): string;
+		(values: {[p: string]: any}): string;
 	}
 
 	type Unary<T,U> = (input: T) => U;
