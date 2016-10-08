@@ -72,9 +72,9 @@ declare namespace Mithril {
 		(): T;
 		(value: T): this;
 		run(f: (current: T) => Stream<T> | T | void): Stream<T>;
-		run<U>(f: (current: T) => Stream<U> | U): Stream<U>;
+		run<U>(f: (current: T) => Stream<U> | U | void): Stream<U>;
 		map(f: (current: T) => Stream<T> | T | void): Stream<T>;
-		map<U>(f: (current: T) => Stream<U> | U): Stream<U>;
+		map<U>(f: (current: T) => Stream<U> | U | void): Stream<U>;
 		catch(f: (current: T) => T | void): Stream<T>;
 		catch<U>(f: (current: T) => U): Stream<U>;
 		of(val?: T): Stream<T>;
