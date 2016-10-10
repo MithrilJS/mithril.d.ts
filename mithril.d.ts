@@ -8,12 +8,12 @@
 declare namespace Mithril {
 
 	interface Lifecycle<A,S> {
-		oninit?: (this: S, vnode: Vnode<A,S>) => void,
-		oncreate?: (this: S, vnode: Vnode<A,S>) => void,
-		onbeforeremove?: (this: S, vnode: Vnode<A,S>, done: () => void) => void,
-		onremove?: (this: S, vnode: Vnode<A,S>) => void,
-		onbeforeupdate?: (this: S, vnode: Vnode<A,S>, old: Vnode<A,S>) => boolean,
-		onupdate?: (this: S, vnode: Vnode<A,S>) => void
+		oninit?: (this: S, vnode: Vnode<A,S>) => void;
+		oncreate?: (this: S, vnode: Vnode<A,S>) => void;
+		onbeforeremove?: (this: S, vnode: Vnode<A,S>, done: () => void) => void;
+		onremove?: (this: S, vnode: Vnode<A,S>) => void;
+		onbeforeupdate?: (this: S, vnode: Vnode<A,S>, old: Vnode<A,S>) => boolean;
+		onupdate?: (this: S, vnode: Vnode<A,S>) => void;
 	}
 
 	interface Hyperscript {
@@ -24,12 +24,12 @@ declare namespace Mithril {
 	}
 
 	interface RouteResolver {
-		render?: (vnode: Mithril.Vnode<any,any>) => Mithril.Vnode<any,any>
-		onmatch?: (resolve: (c: Component) => void, args: any, path?: string) => void
+		render?: (vnode: Mithril.Vnode<any,any>) => Mithril.Vnode<any,any>;
+		onmatch?: (resolve: (c: Component) => void, args: any, path?: string) => void;
 	}
 
 	interface RouteDefs {
-		[url: string]: Component | RouteResolver
+		[url: string]: Component | RouteResolver;
 	}
 
 	interface RouteOptions {
