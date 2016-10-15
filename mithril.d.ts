@@ -18,18 +18,18 @@ declare namespace Mithril {
 
 	interface Hyperscript {
 		(selector: string, ...children: any[]): Vnode<any,any>;
-		<A,S>(component: TComponent<A,S>, a?: (A & Lifecycle<A,S>) | Children, ...children: Children[]): Vnode<A,S>;
+		<A,S>(component: Component<A,S>, a?: (A & Lifecycle<A,S>) | Children, ...children: Children[]): Vnode<A,S>;
 		fragment(attrs: any, children: any[]): Vnode<any,any>;
 		trust(html: string): Vnode<any,any>;
 	}
 
 	interface RouteResolver {
 		render?: (vnode: Mithril.Vnode<any,any>) => Mithril.Vnode<any,any>;
-		onmatch?: (resolve: (c: Component) => void, args: any, path?: string) => void;
+		onmatch?: (resolve: (c: Component<any,any>) => void, args: any, path?: string) => void;
 	}
 
 	interface RouteDefs {
-		[url: string]: Component | RouteResolver;
+		[url: string]: Component<any,any> | RouteResolver;
 	}
 
 	interface RouteOptions {
@@ -45,7 +45,7 @@ declare namespace Mithril {
 	}
 
 	interface Mount {
-		(element: Element, component: Component): void;
+		(element: Element, component: Component<any,any>): void;
 	}
 
 	interface WithAttr {
@@ -78,16 +78,16 @@ declare namespace Mithril {
 		catch(f: (current: T) => T | void): Stream<T>;
 		catch<U>(f: (current: T) => U): Stream<U>;
 		of(val?: T): Stream<T>;
-		ap(f: Functor<T>): Functor<T>;
+		ap: <U,V>(this: Stream<(value: U) => V>, value: U) => Stream<V>;
 		end: Stream<boolean>;
 		error: Stream<any>
 	}
 
-	type StreamCombiner<T> = (...streams: any[]) => T
+	type StreamCombiner<T> = (...streams: Stream<any>[]) => T
 
 	interface StreamFactory {
 		<T>(val?: T): Stream<T>;
-		combine<T>(combiner: StreamCombiner<T>, ...streams: (Stream<any> | Stream<any>[])[]): Stream<T>;
+		combine<T>(combiner: StreamCombiner<T>, streams: Stream<any>[]): Stream<T>;
 		reject<T>(value: T): Stream<T>;
 		merge(streams: Stream<any>[]): Stream<any[]>;
 		HALT: any;
@@ -143,7 +143,7 @@ declare namespace Mithril {
 
 	/** Mithril Vnode type */
 	interface Vnode<A, S extends Lifecycle<A,S>> {
-		tag: string | TComponent<A,S>;
+		tag: string | Component<A,S>;
 		attrs: A;
 		state: S;
 		key?: string;
@@ -154,12 +154,9 @@ declare namespace Mithril {
 	}
 
 	/** Component with typed vnode state & attrs */
-	interface TComponent<A, S extends Lifecycle<A,S>> extends Lifecycle<A,S> {
+	interface Component<A, S extends Lifecycle<A,S>> extends Lifecycle<A,S> {
 		view: (this: S, vnode: Vnode<A,S>) => Vnode<any,any> | (Vnode<any,any> | void)[] | void;
 	}
-
-	/** Component with untyped vnode state & attrs */
-	interface Component extends TComponent<any,any> {}
 
 	interface RequestOptions<T> {
 		url: string;

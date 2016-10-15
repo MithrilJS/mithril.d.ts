@@ -2,10 +2,9 @@ import * as m from 'mithril'
 
 ///////////////////////////////////////////////////////////
 // 1.
-// Simple, stateless example with untyped attrs, state.
-// However vnode type (and its properties) is inferred.
+// Simple example. Vnode type for component methods is inferred.
 //
-const comp1: Mithril.Component = {
+const comp1: Mithril.Component<{},{}> = {
 	oncreate ({dom}) {
 		// dom type inferred
 	},
@@ -16,14 +15,14 @@ const comp1: Mithril.Component = {
 
 ///////////////////////////////////////////////////////////
 // 2.
-// With typed attrs
+// Component with attrs
 //
 interface Comp2Attrs {
 	title: string
 	description: string
 }
 
-const comp2: Mithril.TComponent<Comp2Attrs,{}> = {
+const comp2: Mithril.Component<Comp2Attrs,{}> = {
 	view ({attrs}) { // vnode, attrs types are inferred
 		const {title, description} = attrs
 		return [m('h2', title), m('p', description)]
@@ -36,7 +35,7 @@ const comp2: Mithril.TComponent<Comp2Attrs,{}> = {
 // Uses comp2 with typed attrs and makes use of `onremove`
 // lifecycle method.
 //
-const comp3: Mithril.TComponent<{pageHead: string},{}> = {
+const comp3: Mithril.Component<{pageHead: string},{}> = {
 	oncreate ({dom}) {
 		// Can do stuff with dom
 	},
@@ -52,7 +51,10 @@ const comp3: Mithril.TComponent<{pageHead: string},{}> = {
 						console.log("comp2 was removed")
 					},
 				}
-			)
+			),
+			// Test other hyperscript parameter variations
+			m(comp1, m(comp1)),
+			m('br')
 		)
 	}
 }
@@ -71,7 +73,7 @@ interface Comp4State {
 }
 
 // Either of these two Comp4 defs will work:
-type Comp4 = Mithril.TComponent<Comp4Attrs,Comp4State> & Comp4State
+type Comp4 = Mithril.Component<Comp4Attrs,Comp4State> & Comp4State
 //interface Comp4 extends Mithril.Component<Comp4Attrs,Comp4State>, Comp4State {}
 
 const comp4: Comp4 = {
@@ -102,7 +104,7 @@ const comp4: Comp4 = {
 // Avoids the use of `this` completely; state manipulated
 // through vnode.state.
 //
-const comp5: Mithril.TComponent<Comp4Attrs,Comp4State> = {
+const comp5: Mithril.Component<Comp4Attrs,Comp4State> = {
 	oninit ({state}) {
 		state.count = 0
 		state.add = num => {state.count += num}
@@ -159,11 +161,8 @@ const stream3 = m.prop('c')
 
 // not easy to infer combiner types
 const combinedStream = m.prop.combine<string>(
-	(
-		_s1: Mithril.Stream<string>, _s2: Mithril.Stream<string>, _s3: Mithril.Stream<string>,
-		changed: Mithril.Stream<string>[]
-	) => 'd',
-	stream1, [stream2, stream3]
+	(s1, s2, s3) =>	s1() + s2() + s3(),
+	[stream1, stream2, stream3]
 )
 
 const mergedStream = m.prop.merge([stream1, stream2, stream3])
@@ -185,4 +184,4 @@ export default {
 	view ({attrs}) {
 		return m('span', `name: ${attrs.name}, count: ${this.count}`)
 	}
-} as Mithril.TComponent<Attrs,State> & State
+} as Mithril.Component<Attrs,State> & State
