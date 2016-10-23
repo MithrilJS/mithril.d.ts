@@ -155,7 +155,7 @@ declare namespace Mithril {
 
 	/** Component with typed vnode state & attrs */
 	interface Component<A, S extends Lifecycle<A,S>> extends Lifecycle<A,S> {
-		view: (this: S, vnode: Vnode<A,S>) => Vnode<any,any> | (Vnode<any,any> | void | null)[] | void | null;
+		view: (this: S, vnode: Vnode<A,S>) => Vnode<any,any> | null | void | (Vnode<any,any> | null | void)[];
 	}
 
 	interface RequestOptions<T> {
