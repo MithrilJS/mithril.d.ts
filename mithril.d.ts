@@ -76,7 +76,7 @@ declare namespace Mithril {
 		map(f: (current: T) => Stream<T> | T | void): Stream<T>;
 		map<U>(f: (current: T) => Stream<U> | U): Stream<U>;
 		of(val?: T): Stream<T>;
-		ap: <U,V>(this: Stream<(value: U) => V>, value: U) => Stream<V>;
+		ap<U>(f: Stream<(value: T) => U>): Stream<U>;
 		end: Stream<boolean>;
 	}
 
