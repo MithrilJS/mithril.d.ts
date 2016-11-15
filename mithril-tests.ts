@@ -1,4 +1,5 @@
 import * as m from 'mithril'
+import * as stream from 'mithril/stream'
 
 ///////////////////////////////////////////////////////////
 // 1.
@@ -125,47 +126,35 @@ const comp5: Mithril.Component<Comp4Attrs,Comp4State> = {
 //
 // request and stream
 //
-interface UserRow {
+interface User {
 	id: number
 	userName: string
 	firstName: string
 	lastName: string
 }
 
-interface User {
-	id: number
-	userName: string
-	fullName: string
-}
-
-// Perform request, transform UserRow -> User
-const user: Mithril.Stream<User> = m.request<UserRow>({
-	url: '/api/users/1',
-	method: 'get',
-	initialValue: {
-		// must be UserRow type
-		id: 0, userName: '', firstName: '', lastName: ''
-	}
-}).run<User>(row =>({
-	// Must be User type
-	id: row.id, userName: row.userName, fullName: row.firstName + ' ' + row.lastName
-}))
+// Perform request
+m.request<User>({
+	url: '/api/users/1'
+}).then(user => {
+	console.log(user)
+})
 
 ///////////////////////////////////////////////////////////
 //
 // Streams
 //
-const stream1 = m.prop('a')
-const stream2 = m.prop('b')
-const stream3 = m.prop('c')
+const stream1 = stream('a')
+const stream2 = stream('b')
+const stream3 = stream('c')
 
 // not easy to infer combiner types
-const combinedStream = m.prop.combine<string>(
+const combinedStream = stream.combine<string>(
 	(s1, s2, s3) =>	s1() + s2() + s3(),
 	[stream1, stream2, stream3]
 )
 
-const mergedStream = m.prop.merge([stream1, stream2, stream3])
+const mergedStream = stream.merge([stream1, stream2, stream3])
 
 ///////////////////////////////////////////////////////////
 //
