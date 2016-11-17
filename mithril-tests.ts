@@ -2,6 +2,18 @@ import * as m from 'mithril'
 import * as stream from 'mithril/stream'
 
 ///////////////////////////////////////////////////////////
+// 0.
+// Simplest component example - no attrs or state.
+//
+const comp0 = {
+	view() {
+		return m('span', "Test")
+	}
+}
+
+m.mount(document.getElementById('comp0'), comp0)
+
+///////////////////////////////////////////////////////////
 // 1.
 // Simple example. Vnode type for component methods is inferred.
 //
