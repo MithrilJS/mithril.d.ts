@@ -152,6 +152,9 @@ m.request<User>({
 	console.log(user)
 })
 
+// Simple get request
+m.request('/api/test').then(() => {})
+
 ///////////////////////////////////////////////////////////
 //
 // Streams

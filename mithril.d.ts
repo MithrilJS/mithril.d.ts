@@ -89,6 +89,7 @@ declare namespace Mithril {
 
 	interface Request {
 		<T>(options: RequestOptions<T>): Promise<T>;
+		<T>(url: string, options?: RequestOptions<T>): Promise<T>;
 	}
 
 	interface RequestService {
