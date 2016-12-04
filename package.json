@@ -2,7 +2,7 @@
   "name": "@types/mithril",
   "version": "1.0.0",
   "description": "Requires TypeScript 2.x.",
-  "main": "index.js",
+  "main": "mithril.d.ts",
   "scripts": {
     "test": "tsc"
   },
