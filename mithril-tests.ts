@@ -19,7 +19,7 @@ m.mount(document.getElementById('comp0'), comp0)
 //
 const comp1: Mithril.Component<{},{}> = {
 	oncreate ({dom}) {
-		// dom type inferred
+		// vnode.dom type inferred
 	},
 	view (vnode) {
 		return m('span', "Test")
@@ -36,8 +36,7 @@ interface Comp2Attrs {
 }
 
 const comp2: Mithril.Component<Comp2Attrs,{}> = {
-	view ({attrs}) { // vnode, attrs types are inferred
-		const {title, description} = attrs
+	view ({attrs: {title, description}}) { // Comp2Attrs type is inferred
 		return [m('h2', title), m('p', description)]
 	}
 }
@@ -129,14 +128,15 @@ const comp5: Mithril.Component<Comp4Attrs,Comp4State> = {
 				{
 					onclick: () => {state.add(1)}
 				},
-			"Click me")
+				"Click me"
+			)
 		]
 	}
 }
 
 ///////////////////////////////////////////////////////////
 //
-// request and stream
+// request
 //
 interface User {
 	id: number

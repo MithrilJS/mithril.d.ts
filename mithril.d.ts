@@ -3,7 +3,7 @@
 // Definitions by: Mike Linkovich <https://github.com/spacejack>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-// Typescript 2.0
+// Typescript 2
 
 declare namespace Mithril {
 
@@ -61,6 +61,95 @@ declare namespace Mithril {
 		(values: {[p: string]: any}): string;
 	}
 
+	interface RequestOptions<T> {
+		url: string;
+		method?: string;
+		data?: any;
+		async?: boolean;
+		user?: string;
+		password?: string;
+		withCredentials?: boolean;
+		config?: any;
+		type?: any;
+		serialize?: (data: T) => string;
+		deserialze?: (str: string) => T;
+		extract?: (xhr: XMLHttpRequest, options: RequestOptions<T>) => string;
+		useBody?: boolean;
+		background?: boolean;
+	}
+
+	interface Request {
+		<T>(options: RequestOptions<T>): Promise<T>;
+		<T>(url: string, options?: RequestOptions<T>): Promise<T>;
+	}
+
+	interface JsonpOptions<T> {
+		url: string;
+		data?: any;
+		type?: new <U>(data: U) => T;
+		callbackName?: string;
+		callbackKey?: string;
+	}
+
+	interface Jsonp {
+		<T>(options: JsonpOptions<T>): Promise<T>;
+		<T>(url: string, options?: JsonpOptions<T>): Promise<T>;
+	}
+
+	interface RequestService {
+		request: Request;
+		jsonp: Jsonp;
+	}
+
+	interface Render {
+		(el: Element, vnodes: Vnode<any,any> | Vnode<any,any>[]): void;
+	}
+
+	interface RenderService {
+		render: Render;
+	}
+
+	interface Publish {
+		(): void;
+	}
+
+	interface RedrawService {
+		redraw: Publish;
+	}
+
+	interface Static extends Hyperscript {
+		route: Route;
+		mount: Mount;
+		withAttr: WithAttr;
+		render: Render;
+		redraw: Publish;
+		request: Request;
+		jsonp: Jsonp;
+		parseQueryString: ParseQueryString;
+		buildQueryString: BuildQueryString;
+		version: string;
+	}
+
+	// Vnode children types
+	type Child = string | number | boolean | Vnode<any,any>;
+	interface ChildArray extends Array<Children> {}
+	type Children = Child | ChildArray;
+
+	interface Vnode<A, S extends Lifecycle<A,S>> {
+		tag: string | Component<A,S>;
+		attrs: A;
+		state: S;
+		key?: string;
+		children?: Vnode<any,any>[];
+		dom?: Element;
+		domSize?: number;
+		events?: any;
+	}
+
+	interface Component<A, S extends Lifecycle<A,S>> extends Lifecycle<A,S> {
+		view: (this: S, vnode: Vnode<A,S>) => Vnode<any,any> | null | void | (Vnode<any,any> | null | void)[];
+	}
+
 	type Unary<T,U> = (input: T) => U;
 
 	interface Functor<T> {
@@ -85,94 +174,6 @@ declare namespace Mithril {
 		combine<T>(combiner: StreamCombiner<T>, streams: Stream<any>[]): Stream<T>;
 		merge(streams: Stream<any>[]): Stream<any[]>;
 		HALT: any;
-	}
-
-	interface Request {
-		<T>(options: RequestOptions<T>): Promise<T>;
-		<T>(url: string, options?: RequestOptions<T>): Promise<T>;
-	}
-
-	interface RequestService {
-		request: Request;
-		jsonp: Jsonp;
-	}
-
-	interface Render {
-		(el: Element, vnodes: Vnode<any,any> | Vnode<any,any>[]): void;
-	}
-
-	interface RenderService {
-		render: Render;
-	}
-
-	interface Publish {
-		(): void;
-	}
-
-	interface RedrawService {
-		redraw: Publish;
-	}
-
-	interface Jsonp {
-		<T>(options: JsonpOptions<T>): Promise<T>;
-	}
-
-	interface Static extends Hyperscript {
-		route: Route;
-		mount: Mount;
-		withAttr: WithAttr;
-		render: Render;
-		redraw: Publish;
-		request: Request;
-		jsonp: Jsonp;
-		parseQueryString: ParseQueryString;
-		buildQueryString: BuildQueryString;
-		version: string;
-	}
-
-	// Vnode children types
-	type Child = string | number | boolean | Vnode<any,any>;
-	interface ChildArray extends Array<Children> {}
-	type Children = Child | ChildArray;
-
-	/** Mithril Vnode type */
-	interface Vnode<A, S extends Lifecycle<A,S>> {
-		tag: string | Component<A,S>;
-		attrs: A;
-		state: S;
-		key?: string;
-		children?: Vnode<any,any>[];
-		dom?: Element;
-		domSize?: number;
-		events?: any;
-	}
-
-	/** Component with typed vnode state & attrs */
-	interface Component<A, S extends Lifecycle<A,S>> extends Lifecycle<A,S> {
-		view: (this: S, vnode: Vnode<A,S>) => Vnode<any,any> | null | void | (Vnode<any,any> | null | void)[];
-	}
-
-	interface RequestOptions<T> {
-		url: string;
-		method?: string;
-		data?: any;
-		async?: boolean;
-		user?: string;
-		password?: string;
-		config?: any;
-		type?: any;
-		serialize?: (data: T) => string;
-		deserialze?: (str: string) => T;
-		extract?: (xhr: XMLHttpRequest, options: RequestOptions<T>) => string;
-		useBody?: boolean;
-	}
-
-	interface JsonpOptions<T> {
-		url: string;
-		data?: any;
-		type?: new <U>(data: U) => T;
-		callbackName?: string;
-		callbackKey?: string;
 	}
 }
 
