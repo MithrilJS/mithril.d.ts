@@ -6,6 +6,18 @@ NOTE: Both [Mithril](https://github.com/lhorie/mithril.js) 1.0 and these types a
 
 See `mithril-tests.ts` for examples.
 
+## Install
+
+Until Mithril 1.0 is released, you can install these definitions from this repo to your own project with:
+
+	npm install -D github:spacejack/mithril.d.ts
+
+which will add this entry to your package.json devDependencies:
+
+	"@types/mithril": "github:spacejack/mithril.d.ts"
+
+---
+
 ### Trying stuff out
 
 The easiest way to look at what's going on with the types is to install VSCode or some other editor/IDE with good TS language support. Open the `mithril-tests.ts` file and then hover the cursor over variables to inspect types. Try making changes and adding other code that uses the mithril API.
