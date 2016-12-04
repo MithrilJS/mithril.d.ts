@@ -1,5 +1,5 @@
 {
-  "name": "mithril.d.ts",
+  "name": "@types/mithril",
   "version": "1.0.0",
   "description": "Requires TypeScript 2.x.",
   "main": "index.js",
