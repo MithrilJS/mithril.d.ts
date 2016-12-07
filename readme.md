@@ -16,6 +16,8 @@ which will add this entry to your package.json devDependencies:
 
 	"@types/mithril": "github:spacejack/mithril.d.ts"
 
+**If you are not bundling** and instead are including mithril.js in a separate script tag then you will need to install the global version. You can find that [here](https://github.com/spacejack/mithril-global.d.ts).
+
 ---
 
 ### Trying stuff out
