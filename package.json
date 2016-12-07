@@ -1,7 +1,7 @@
 {
   "name": "@types/mithril",
   "version": "1.0.0",
-  "description": "Requires TypeScript 2.x.",
+  "description": "Typescript Definitions for Mithril 1.0",
   "main": "index.d.ts",
   "scripts": {
     "test": "tsc"
