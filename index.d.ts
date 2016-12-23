@@ -9,11 +9,11 @@ declare namespace Mithril {
 
 	interface Lifecycle<A,S> {
 		oninit?: (this: S, vnode: Vnode<A,S>) => void;
-		oncreate?: (this: S, vnode: Vnode<A,S>) => void;
-		onbeforeremove?: (this: S, vnode: Vnode<A,S>, done: () => void) => void;
-		onremove?: (this: S, vnode: Vnode<A,S>) => void;
+		oncreate?: (this: S, vnode: VnodeDOM<A,S>) => void;
+		onbeforeremove?: (this: S, vnode: VnodeDOM<A,S>, done: () => void) => void;
+		onremove?: (this: S, vnode: VnodeDOM<A,S>) => void;
 		onbeforeupdate?: (this: S, vnode: Vnode<A,S>, old: Vnode<A,S>) => boolean;
-		onupdate?: (this: S, vnode: Vnode<A,S>) => void;
+		onupdate?: (this: S, vnode: VnodeDOM<A,S>) => void;
 	}
 
 	interface Hyperscript {
@@ -141,9 +141,14 @@ declare namespace Mithril {
 		state: S;
 		key?: string;
 		children?: Vnode<any,any>[];
-		dom?: Element;
-		domSize?: number;
 		events?: any;
+	}
+
+	// In some lifecycle methods, Vnode will have a dom property
+	// and possibly a domSize property.
+	interface VnodeDOM<A,S> extends Vnode<A,S> {
+		dom: Element;
+		domSize?: number;
 	}
 
 	interface Component<A, S extends Lifecycle<A,S>> extends Lifecycle<A,S> {
