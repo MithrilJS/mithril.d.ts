@@ -10,7 +10,7 @@ declare namespace Mithril {
 	interface Lifecycle<A,S> {
 		oninit?: (this: S, vnode: Vnode<A,S>) => void;
 		oncreate?: (this: S, vnode: VnodeDOM<A,S>) => void;
-		onbeforeremove?: (this: S, vnode: VnodeDOM<A,S>, done: () => void) => void;
+		onbeforeremove?: (this: S, vnode: VnodeDOM<A,S>) => Promise<any> | void;
 		onremove?: (this: S, vnode: VnodeDOM<A,S>) => void;
 		onbeforeupdate?: (this: S, vnode: Vnode<A,S>, old: Vnode<A,S>) => boolean;
 		onupdate?: (this: S, vnode: VnodeDOM<A,S>) => void;
@@ -34,6 +34,8 @@ declare namespace Mithril {
 
 	interface RouteOptions {
 		replace?: boolean;
+		state?: any;
+		title?: string;
 	}
 
 	interface Route {
