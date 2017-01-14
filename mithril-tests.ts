@@ -11,7 +11,7 @@ const comp0 = {
 	}
 }
 
-m.mount(document.getElementById('comp0'), comp0)
+m.mount(document.getElementById('comp0')!, comp0)
 
 ///////////////////////////////////////////////////////////
 // 1.
@@ -147,7 +147,8 @@ interface User {
 
 // Perform request
 m.request<User>({
-	url: '/api/users/1'
+	url: '/api/users/1',
+	headers: {Authorization: "Basic"}
 }).then(user => {
 	console.log(user)
 })

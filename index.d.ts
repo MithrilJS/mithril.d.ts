@@ -44,6 +44,7 @@ declare namespace Mithril {
 		set(route: string, data?: any, options?: RouteOptions): void;
 		prefix(urlFragment: string): void;
 		link(vnode: Vnode<any,any>): (e: Event) => void;
+		param(name?: string): any;
 	}
 
 	interface Mount {
@@ -64,7 +65,6 @@ declare namespace Mithril {
 	}
 
 	interface RequestOptions<T> {
-		url: string;
 		method?: string;
 		data?: any;
 		async?: boolean;
@@ -72,6 +72,7 @@ declare namespace Mithril {
 		password?: string;
 		withCredentials?: boolean;
 		config?: any;
+		headers?: any;
 		type?: any;
 		serialize?: (data: T) => string;
 		deserialze?: (str: string) => T;
@@ -80,8 +81,12 @@ declare namespace Mithril {
 		background?: boolean;
 	}
 
+	interface RequestOptionsAll<T> extends RequestOptions<T> {
+		url: string;
+	}
+
 	interface Request {
-		<T>(options: RequestOptions<T>): Promise<T>;
+		<T>(options: RequestOptionsAll<T>): Promise<T>;
 		<T>(url: string, options?: RequestOptions<T>): Promise<T>;
 	}
 
