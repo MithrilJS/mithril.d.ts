@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/spacejack/mithril.d.ts#readme",
   "devDependencies": {
-    "typescript": "^2.1.4"
+    "typescript": "^2.1.5"
   }
 }

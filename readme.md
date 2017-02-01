@@ -2,15 +2,13 @@
 
 Requires TypeScript 2.x.
 
-NOTE: Both [Mithril](https://github.com/lhorie/mithril.js) 1.0 and these types are subject to change, so use at your own risk.
-
-See `mithril-tests.ts` for examples.
+See `mithril-tests.ts` for example usage.
 
 ## Install
 
-Until Mithril 1.0 is released, you can install these definitions from this repo to your own project with:
+For now, install directly from this Github repo with:
 
-	npm install -D github:spacejack/mithril.d.ts
+	npm install -D github:spacejack/mithril.d.ts#1.0.0
 
 which will add this entry to your package.json devDependencies:
 

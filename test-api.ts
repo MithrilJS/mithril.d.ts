@@ -8,13 +8,13 @@ declare const global: any
 import * as m from 'mithril'
 
 o.spec("api", function() {
+	//var m
 	var FRAME_BUDGET = Math.floor(1000 / 60)
-	/*var m
 	o.beforeEach(function() {
 		var mock = browserMock()
-		if (typeof global !== "undefined") global.window = mock, global.document = mock.document
-		m = require("../mithril")
-	})*/
+		if (typeof global !== "undefined") global.window = mock
+		//m = require("../mithril")
+	})
 
 	o.spec("m", function() {
 		o("works", function() {
@@ -44,8 +44,8 @@ o.spec("api", function() {
 
 			o(vnode.tag).equals("[")
 			o(vnode.key).equals(123)
-			o(vnode.children.length).equals(1)
-			o(vnode.children[0].tag).equals("div")
+			o(vnode.children!.length).equals(1)
+			o(vnode.children![0].tag).equals("div")
 		})
 	})
 	o.spec("m.withAttr", function() {
@@ -78,7 +78,7 @@ o.spec("api", function() {
 			m.render(root, m("div"))
 
 			o(root.childNodes.length).equals(1)
-			o(root.firstChild.nodeName).equals("DIV")
+			o(root.firstChild!.nodeName).equals("DIV")
 		})
 	})
 	o.spec("m.mount", function() {
@@ -87,11 +87,11 @@ o.spec("api", function() {
 			m.mount(root, {view: function() {return m("div")}})
 
 			o(root.childNodes.length).equals(1)
-			o(root.firstChild.nodeName).equals("DIV")
+			o(root.firstChild!.nodeName).equals("DIV")
 		})
 	})
 	o.spec("m.route", function() {
-		o("works", function(done: any) {
+		o("works", function(done: Function) {
 			var root = window.document.createElement("div")
 			m.route(root, "/a", {
 				"/a": {view: function() {return m("div")}}
@@ -99,12 +99,12 @@ o.spec("api", function() {
 
 			setTimeout(function() {
 				o(root.childNodes.length).equals(1)
-				o(root.firstChild.nodeName).equals("DIV")
+				o(root.firstChild!.nodeName).equals("DIV")
 
 				done()
 			}, FRAME_BUDGET)
 		})
-		o("m.route.prefix", function(done: any) {
+		o("m.route.prefix", function(done: Function) {
 			var root = window.document.createElement("div")
 			m.route.prefix("#")
 			m.route(root, "/a", {
@@ -113,12 +113,12 @@ o.spec("api", function() {
 
 			setTimeout(function() {
 				o(root.childNodes.length).equals(1)
-				o(root.firstChild.nodeName).equals("DIV")
+				o(root.firstChild!.nodeName).equals("DIV")
 
 				done()
 			}, FRAME_BUDGET)
 		})
-		o("m.route.get", function(done: any) {
+		o("m.route.get", function(done: Function) {
 			var root = window.document.createElement("div")
 			m.route(root, "/a", {
 				"/a": {view: function() {return m("div")}}
@@ -130,7 +130,7 @@ o.spec("api", function() {
 				done()
 			}, FRAME_BUDGET)
 		})
-		o("m.route.set", function(done: any, timeout: any) {
+		o("m.route.set", function(done: Function, timeout: Function) {
 			timeout(100)
 			var root = window.document.createElement("div")
 			m.route(root, "/a", {
@@ -148,7 +148,7 @@ o.spec("api", function() {
 		})
 	})
 	o.spec("m.redraw", function() {
-		o("works", function(done: any) {
+		o("works", function(done: Function) {
 			var count = 0
 			var root = window.document.createElement("div")
 			m.mount(root, {view: function() {count++}})

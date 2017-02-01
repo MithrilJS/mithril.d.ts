@@ -116,15 +116,16 @@ declare namespace Mithril {
 	}
 
 	interface RenderService {
-		render: Render;
+		render: Render
 	}
 
-	interface Publish {
+	interface Redraw {
 		(): void;
 	}
 
 	interface RedrawService {
-		redraw: Publish;
+		redraw: Redraw
+		render: Render
 	}
 
 	interface Static extends Hyperscript {
@@ -132,7 +133,7 @@ declare namespace Mithril {
 		mount: Mount;
 		withAttr: WithAttr;
 		render: Render;
-		redraw: Publish;
+		redraw: Redraw;
 		request: Request;
 		jsonp: Jsonp;
 		parseQueryString: ParseQueryString;
@@ -202,12 +203,37 @@ declare module 'mithril/hyperscript' {
 	export = h;
 }
 
-declare module 'mithril/stream' {
-	const s: Mithril.StreamFactory;
-	export = s;
+declare module 'mithril/mount' {
+	const m: Mithril.Mount;
+	export = m;
+}
+
+declare module 'mithril/route' {
+	const r: Mithril.Route;
+	export = r;
+}
+
+declare module 'mithril/request' {
+	const r: Mithril.RequestService;
+	export = r;
+}
+
+declare module 'mithril/render' {
+	const r: Mithril.RenderService;
+	export = r;
+}
+
+declare module 'mithril/redraw' {
+	const r: Mithril.RedrawService;
+	export = r;
 }
 
 declare module 'mithril/util/withAttr' {
 	const withAttr: Mithril.WithAttr;
 	export = withAttr;
+}
+
+declare module 'mithril/stream' {
+	const s: Mithril.StreamFactory;
+	export = s;
 }
