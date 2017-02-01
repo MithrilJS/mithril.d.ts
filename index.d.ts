@@ -53,7 +53,7 @@ declare namespace Mithril {
 
 	interface WithAttr {
 		<T>(name: string, stream: Stream<T>, thisArg?: any): (e: {currentTarget: any, [p: string]: any}) => boolean;
-		(name: string, callback: (value: any) => boolean, thisArg?: any): (e: {currentTarget: any, [p: string]: any}) => boolean;
+		(name: string, callback: (value: any) => void, thisArg?: any): (e: {currentTarget: any, [p: string]: any}) => boolean;
 	}
 
 	interface ParseQueryString {
