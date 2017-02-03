@@ -48,7 +48,7 @@ declare namespace Mithril {
 	}
 
 	interface Mount {
-		(element: Element, component: Component<any,any>): void;
+		(element: Element, component: Component<any,any> | null): void;
 	}
 
 	interface WithAttr {

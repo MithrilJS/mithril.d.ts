@@ -11,7 +11,11 @@ const comp0 = {
 	}
 }
 
+// Mount the component
 m.mount(document.getElementById('comp0')!, comp0)
+
+// Unmount the component
+m.mount(document.getElementById('comp0')!, null)
 
 ///////////////////////////////////////////////////////////
 // 1.
