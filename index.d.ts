@@ -183,7 +183,7 @@ declare namespace Mithril {
 		end: Stream<boolean>;
 	}
 
-	type StreamCombiner<T> = (...streams: Stream<any>[]) => T
+	type StreamCombiner<T> = (...streams: any[]) => T
 
 	interface StreamFactory {
 		<T>(val?: T): Stream<T>;
