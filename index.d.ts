@@ -71,11 +71,11 @@ declare namespace Mithril {
 		user?: string;
 		password?: string;
 		withCredentials?: boolean;
-		config?: any;
+		config?: (xhr: XMLHttpRequest) => void;
 		headers?: any;
 		type?: any;
-		serialize?: (data: T) => string;
-		deserialze?: (str: string) => T;
+		serialize?: (data: any) => string;
+		deserialize?: (str: string) => T;
 		extract?: (xhr: XMLHttpRequest, options: RequestOptions<T>) => string;
 		useBody?: boolean;
 		background?: boolean;
