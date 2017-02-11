@@ -1,5 +1,4 @@
 import * as m from 'mithril'
-import * as stream from 'mithril/stream'
 
 ///////////////////////////////////////////////////////////
 // 0.
@@ -138,43 +137,6 @@ const comp5: Mithril.Component<Comp4Attrs,Comp4State> = {
 	}
 }
 
-///////////////////////////////////////////////////////////
-//
-// request
-//
-interface User {
-	id: number
-	userName: string
-	firstName: string
-	lastName: string
-}
-
-// Perform request
-m.request<User>({
-	url: '/api/users/1',
-	headers: {Authorization: "Basic"}
-}).then(user => {
-	console.log(user)
-})
-
-// Simple get request
-m.request('/api/test').then(() => {})
-
-///////////////////////////////////////////////////////////
-//
-// Streams
-//
-const stream1 = stream('a')
-const stream2 = stream('b')
-const stream3 = stream('c')
-
-// not easy to infer combiner types
-const combinedStream = stream.combine<string>(
-	(s1, s2, s3) =>	s1() + s2() + s3(),
-	[stream1, stream2, stream3]
-)
-
-const mergedStream = stream.merge([stream1, stream2, stream3])
 
 ///////////////////////////////////////////////////////////
 //
