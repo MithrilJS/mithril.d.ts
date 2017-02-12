@@ -11,5 +11,5 @@ m.fragment(
 			console.log('oninit')
 		}
 	},
-	[m('p', 'test1'), 'Abc', m('p', 'test2')]
+	[m('p', 'test1'), [123, m('p', 'abc'), ['abc']], 'Abc', m('p', 'test2')]
 )

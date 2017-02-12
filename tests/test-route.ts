@@ -29,7 +29,7 @@ m.route(document.body, '/', {
 			return component2
 		},
 		render (vnode) {
-			return [m(component1), m(component2)]
+			return ['abc', 123, null, m(component2), ['nested', m('p', 123)]]
 		}
 	},
 	'test4': {

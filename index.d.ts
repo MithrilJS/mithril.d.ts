@@ -19,12 +19,12 @@ declare namespace Mithril {
 	interface Hyperscript {
 		(selector: string, ...children: any[]): Vnode<any,any>;
 		<A,S>(component: Component<A,S>, a?: (A & Lifecycle<A,S>) | Children, ...children: Children[]): Vnode<A,S>;
-		fragment(attrs: any, children: (Vnode<any,any> | string | number | boolean | null | undefined)[]): Vnode<any,any>;
+		fragment(attrs: any, children: Children[]): Vnode<any,any>;
 		trust(html: string): Vnode<any,any>;
 	}
 
 	interface RouteResolver {
-		render?: (vnode: Mithril.Vnode<any,any>) => any;
+		render?: (vnode: Mithril.Vnode<any,any>) => Children;
 		onmatch?: (args: any, requestedPath: string) => Mithril.Component<any,any> | Promise<Mithril.Component<any,any>> | void;
 	}
 
@@ -113,7 +113,7 @@ declare namespace Mithril {
 	}
 
 	interface Render {
-		(el: Element, vnodes: Vnode<any,any> | Vnode<any,any>[]): void;
+		(el: Element, vnodes: Children): void;
 	}
 
 	interface RenderService {
@@ -143,7 +143,7 @@ declare namespace Mithril {
 	}
 
 	// Vnode children types
-	type Child = string | number | boolean | Vnode<any,any>;
+	type Child = Vnode<any,any> | string | number | boolean | null | undefined;
 	interface ChildArray extends Array<Children> {}
 	type Children = Child | ChildArray;
 
