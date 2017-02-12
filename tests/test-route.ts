@@ -41,3 +41,19 @@ m.route(document.body, '/', {
 		}
 	}
 })
+
+m.route.prefix('/app')
+
+m.route.set('/test1')
+
+m.route.set('/test/:id', {id: 1})
+
+m.route.set('/test2', undefined, {
+	replace: true,
+	state: {abc: 123},
+	title: "Title"
+})
+
+const path: string = m.route.get()
+
+const fn = m.route.link(m('div', 'test'))

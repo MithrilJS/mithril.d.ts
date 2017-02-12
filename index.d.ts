@@ -19,7 +19,7 @@ declare namespace Mithril {
 	interface Hyperscript {
 		(selector: string, ...children: any[]): Vnode<any,any>;
 		<A,S>(component: Component<A,S>, a?: (A & Lifecycle<A,S>) | Children, ...children: Children[]): Vnode<A,S>;
-		fragment(attrs: any, children: any[]): Vnode<any,any>;
+		fragment(attrs: any, children: (Vnode<any,any> | string | number | boolean | null | undefined)[]): Vnode<any,any>;
 		trust(html: string): Vnode<any,any>;
 	}
 
