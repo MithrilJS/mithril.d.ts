@@ -90,20 +90,21 @@ declare namespace Mithril {
 		<T>(url: string, options?: RequestOptions<T>): Promise<T>;
 	}
 
-	interface JsonpOptions<T> {
+	interface JsonpOptions {
 		data?: any;
-		type?: new <U>(data: U) => T;
+		type?: any;
 		callbackName?: string;
 		callbackKey?: string;
+		background?: boolean;
 	}
 
-	interface JsonpOptionsAll<T> extends JsonpOptions<T> {
+	interface JsonpOptionsAll extends JsonpOptions {
 		url: string;
 	}
 
 	interface Jsonp {
-		<T>(options: JsonpOptionsAll<T>): Promise<T>;
-		<T>(url: string, options?: JsonpOptions<T>): Promise<T>;
+		<T>(options: JsonpOptionsAll): Promise<T>;
+		<T>(url: string, options?: JsonpOptions): Promise<T>;
 	}
 
 	interface RequestService {
