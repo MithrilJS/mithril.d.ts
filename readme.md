@@ -6,11 +6,11 @@ Requires TypeScript 2.x.
 
 For now, install directly from this Github repo with:
 
-	npm install -D github:spacejack/mithril.d.ts#1.0.1
+	npm install -D github:spacejack/mithril.d.ts#1.0.2
 
 which will add this entry to your package.json devDependencies:
 
-	"@types/mithril": "github:spacejack/mithril.d.ts#1.0.1"
+	"@types/mithril": "github:spacejack/mithril.d.ts#1.0.2"
 
 **If you are not bundling** and instead are including mithril.js in a separate script tag then you will need to install the global version. You can find that [here](https://github.com/spacejack/mithril-global.d.ts).
 

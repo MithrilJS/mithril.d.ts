@@ -25,7 +25,7 @@ declare namespace Mithril {
 
 	interface RouteResolver {
 		render?: (vnode: Mithril.Vnode<any,any>) => Children;
-		onmatch?: (args: any, requestedPath: string) => Mithril.Component<any,any> | Promise<Mithril.Component<any,any>> | void;
+		onmatch?: (args: any, requestedPath: string) => Mithril.Component<any,any> | Promise<any> | void;
 	}
 
 	interface RouteDefs {
