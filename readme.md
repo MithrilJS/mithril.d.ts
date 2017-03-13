@@ -16,7 +16,7 @@ which will add this entry to your package.json devDependencies:
 
 ### The Gist:
 
-Here is a very basic component/module example:
+#### POJO `Component` example using `vnode.state`:
 
 ```typescript
 import * as m from 'mithril'
@@ -31,11 +31,72 @@ interface State {
 }
 
 export default {
+	oninit (vnode) {
+		vnode.state.count = 0
+	},
+	view (vnode) {
+		return m('span', `name: ${vnode.attrs.name}, count: ${vnode.state.count}`)
+	}
+} as Component<Attrs,State>
+```
+
+#### POJO `Comp` example using `this` state:
+
+```typescript
+import * as m from 'mithril'
+import {Comp} from 'mithril'
+
+export interface Attrs {
+	name: string
+}
+
+interface State {
+	count: number
+}
+
+export default {
 	count: 0,
 	view ({attrs}) {
 		return m('span', `name: ${attrs.name}, count: ${this.count}`)
 	}
-} as Component<Attrs,State> & State
+} as Comp<Attrs,State>
+```
+
+#### `ClassComponent` example:
+
+```typescript
+import * as m from 'mithril'
+import {ClassComponent, CVnode} from 'mithril'
+
+export interface Attrs {
+    name: string
+}
+
+export default class MyComponent implements ClassComponent<Attrs> {
+    count = 0
+    // Note that class methods cannot infer parameter types
+    view ({attrs}: CVnode<Attrs>) {
+        return m('span', `name: ${attrs.name}, count: ${this.count}`)
+    }
+}
+```
+
+#### `FactoryComponent` example:
+
+```typescript
+import * as m from 'mithril'
+import {FactoryComponent} from 'mithril'
+
+export interface Attrs {
+    name: string
+}
+
+export default (function (vnode) {
+    let count = 0
+    view ({attrs}) {
+        return m('span', `name: ${attrs.name}, count: ${count}`)
+    }
+}) as FactoryComponent<Attrs,{}>
 ```
 
 For more example usage see the `tests` folder.

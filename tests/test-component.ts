@@ -1,5 +1,5 @@
 import * as m from '../'
-import {Component} from '../'
+import {Component, Comp} from '../'
 
 ///////////////////////////////////////////////////////////
 // 0.
@@ -156,4 +156,5 @@ export default {
 	view ({attrs}) {
 		return m('span', `name: ${attrs.name}, count: ${this.count}`)
 	}
-} as Component<Attrs,State> & State
+} as Comp<Attrs,State>
+// Using the Comp type will apply the State intersection type for us.
