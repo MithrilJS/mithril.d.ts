@@ -1,18 +1,18 @@
-import * as m from 'mithril'
+import * as request from '../request'
 
 interface Result {
 	id: number
 }
 
-m.request<Result>({method: "GET", url: "/item"}).then(result => {
+request<Result>({method: "GET", url: "/item"}).then(result => {
 	console.log(result.id)
 })
 
-m.request<{a: string}>("/item", {method: "POST"}).then(result => {
+request<{a: string}>("/item", {method: "POST"}).then(result => {
 	console.log(result.a)
 })
 
-m.request<any>({
+request<any>({
 	method: "GET",
 	url: "/item",
 	data: {x: "y"}
@@ -20,7 +20,7 @@ m.request<any>({
 	console.log(result)
 })
 
-m.request<Result>({
+request<Result>({
 	method: "GET",
 	url: "/item",
 	data: 5,
@@ -29,21 +29,21 @@ m.request<Result>({
 	console.log(result)
 })
 
-m.request<Result>('/item', {
+request<Result>('/item', {
 	method: "GET",
 	deserialize: str => JSON.parse(str) as Result
 }).then(result => {
 	console.log(result.id)
 })
 
-m.request<Result>('/id', {
+request<Result>('/id', {
 	method: "GET",
 	extract: xhr => JSON.stringify({id: xhr.responseText})
 }).then(result => {
 	console.log(result.id)
 })
 
-m.request<Result>('/item', {
+request<Result>('/item', {
 	config: xhr => {
 		xhr.setRequestHeader('accept', '*')
 	},
@@ -60,7 +60,7 @@ class Item {
 	}
 }
 
-m.request<Item>('/item', {
+request<Item>('/item', {
 	method: 'GET',
 	async: true,
 	user: "Me",

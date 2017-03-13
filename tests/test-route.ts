@@ -1,18 +1,20 @@
-import * as m from 'mithril'
+import {Component} from '../'
+import * as h from '../hyperscript'
+import * as route from '../route'
 
 const component1 = {
 	view() {
-		return m('h1', 'Test')
+		return h('h1', 'Test')
 	}
 }
 
 const component2 = {
 	view ({attrs: {title}}) {
-		return m('h1', title)
+		return h('h1', title)
 	}
-} as Mithril.Component<{title: string},{}>
+} as Component<{title: string},{}>
 
-m.route(document.body, '/', {
+route(document.body, '/', {
 	'/': component1,
 	'/test1': {
 		onmatch (args, path) {
@@ -21,7 +23,7 @@ m.route(document.body, '/', {
 	},
 	'/test2': {
 		render(vnode) {
-			return m(component1)
+			return h(component1)
 		}
 	},
 	'test3': {
@@ -29,31 +31,30 @@ m.route(document.body, '/', {
 			return component2
 		},
 		render (vnode) {
-			return ['abc', 123, null, m(component2), ['nested', m('p', 123)]]
+			return ['abc', 123, null, h(component2), ['nested', h('p', 123)]]
 		}
 	},
 	'test4': {
 		onmatch (args, path) {
 			// Must provide a Promise type if we want type checking
-			return new Promise<Mithril.Component<{title: string},{}>>((resolve, reject) => {
+			return new Promise<Component<{title: string},{}>>((resolve, reject) => {
 				resolve(component2)
 			})
 		}
 	}
 })
 
-m.route.prefix('/app')
+route.prefix('/app')
+route.set('/test1')
 
-m.route.set('/test1')
+route.set('/test/:id', {id: 1})
 
-m.route.set('/test/:id', {id: 1})
-
-m.route.set('/test2', undefined, {
+route.set('/test2', undefined, {
 	replace: true,
 	state: {abc: 123},
 	title: "Title"
 })
 
-const path: string = m.route.get()
+const path: string = route.get()
 
-const fn = m.route.link(m('div', 'test'))
+const fn = route.link(h('div', 'test'))

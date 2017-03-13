@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import * as m from '../'
 
 const vnode = m.trust('Some <strong>bold</strong> text.')
 

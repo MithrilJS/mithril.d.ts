@@ -1,4 +1,6 @@
-import * as m from 'mithril'
+import * as m from '../'
+import {Vnode} from '../'
+import * as h from '../hyperscript'
 
 const vnode = m.fragment({id: 'abc'}, ['test'])
 
@@ -7,9 +9,9 @@ m.fragment({}, ['Test', 123])
 m.fragment(
 	{
 		id: 'abc',
-		oninit: (vnode: Mithril.Vnode<any,any>) => {
+		oninit: (vnode: Vnode<any,any>) => {
 			console.log('oninit')
 		}
 	},
-	[m('p', 'test1'), [123, m('p', 'abc'), ['abc']], 'Abc', m('p', 'test2')]
+	[h('p', 'test1'), [123, h('p', 'abc'), ['abc']], 'Abc', h('p', 'test2')]
 )

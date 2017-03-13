@@ -1,174 +1,106 @@
 // Typescript adaptation of mithril's test suite.
 // Not intended to be run; only to compile & check types.
 
-declare const o: any
-declare const browserMock: any
-declare const global: any
+// Use types as script
 
-import * as m from 'mithril'
+const FRAME_BUDGET = 100
 
-o.spec("api", function() {
-	//var m
-	var FRAME_BUDGET = Math.floor(1000 / 60)
-	o.beforeEach(function() {
-		var mock = browserMock()
-		if (typeof global !== "undefined") global.window = mock
-		//m = require("../mithril")
+{
+	let vnode = m("div")
+	console.assert(vnode.tag === "div")
+	console.assert(typeof m.version === "string")
+	console.assert(m.version.indexOf(".") > -1)
+}
+
+{
+	const vnode = m.trust("<br>")
+}
+
+{
+	const vnode = m.fragment({key: 123}, [m("div")])
+	console.assert((vnode.children as m.Vnode<any,any>[]).length === 1)
+	console.assert(vnode.children![0].tag === 'div')
+}
+
+{
+	const handler = m.withAttr("value", (value) => {})
+	handler({currentTarget: {value: 10}})
+}
+
+{
+	const params = m.parseQueryString("?a=1&b=2")
+	const query = m.buildQueryString({a: 1, b: 2})
+}
+
+{
+	const root = window.document.createElement("div")
+	m.render(root, m("div"))
+	console.assert(root.childNodes.length === 1)
+}
+
+{
+	const root = window.document.createElement("div")
+	m.mount(root, {view: function() {return m("div")}})
+	console.assert(root.childNodes.length === 1)
+	console.assert(root.firstChild!.nodeName === "DIV")
+}
+
+{
+	const root = window.document.createElement("div")
+	m.route(root, "/a", {
+		"/a": {view: function() {return m("div")}}
 	})
 
-	o.spec("m", function() {
-		o("works", function() {
-			var vnode = m("div")
+	setTimeout(function() {
+		console.assert(root.childNodes.length === 1)
+		console.assert(root.firstChild!.nodeName === "DIV")
+	}, FRAME_BUDGET)
+}
 
-			o(vnode.tag).equals("div")
-		})
+{
+	const root = window.document.createElement("div")
+	m.route.prefix("#")
+	m.route(root, "/a", {
+		"/a": {view: function() {return m("div")}}
 	})
-	o.spec("m.version", function() {
-		o("works", function() {
-			o(typeof m.version).equals("string")
-			o(m.version.indexOf(".") > -1).equals(true)
-			o(/\d/.test(m.version)).equals(true)
-		})
+
+	setTimeout(function() {
+		console.assert(root.childNodes.length === 1)
+		console.assert(root.firstChild!.nodeName === "DIV")
+	}, FRAME_BUDGET)
+}
+
+{
+	const root = window.document.createElement("div")
+	m.route(root, "/a", {
+		"/a": {view: function() {return m("div")}}
 	})
-	o.spec("m.trust", function() {
-		o("works", function() {
-			var vnode = m.trust("<br>")
 
-			o(vnode.tag).equals("<")
-			o(vnode.children).equals("<br>")
-		})
+	setTimeout(function() {
+		console.assert(m.route.get() === "/a")
+	}, FRAME_BUDGET)
+}
+
+{
+	const root = window.document.createElement("div")
+	m.route(root, "/a", {
+		"/:id": {view: function() {return m("div")}}
 	})
-	o.spec("m.fragment", function() {
-		o("works", function() {
-			var vnode = m.fragment({key: 123}, [m("div")])
 
-			o(vnode.tag).equals("[")
-			o(vnode.key).equals(123)
-			o(vnode.children!.length).equals(1)
-			o(vnode.children![0].tag).equals("div")
-		})
-	})
-	o.spec("m.withAttr", function() {
-		o("works", function() {
-			var spy = o.spy()
-			var handler = m.withAttr("value", spy)
+	setTimeout(function() {
+		m.route.set("/b")
+		setTimeout(function() {
+			console.assert(m.route.get() === "/b")
+		}, FRAME_BUDGET)
+	}, FRAME_BUDGET)
+}
 
-			handler({currentTarget: {value: 10}})
-
-			o(spy.args[0]).equals(10)
-		})
-	})
-	o.spec("m.parseQueryString", function() {
-		o("works", function() {
-			var query = m.parseQueryString("?a=1&b=2")
-
-			o(query).deepEquals({a: "1", b: "2"})
-		})
-	})
-	o.spec("m.buildQueryString", function() {
-		o("works", function() {
-			var query = m.buildQueryString({a: 1, b: 2})
-
-			o(query).equals("a=1&b=2")
-		})
-	})
-	o.spec("m.render", function() {
-		o("works", function() {
-			var root = window.document.createElement("div")
-			m.render(root, m("div"))
-
-			o(root.childNodes.length).equals(1)
-			o(root.firstChild!.nodeName).equals("DIV")
-		})
-	})
-	o.spec("m.mount", function() {
-		o("works", function() {
-			var root = window.document.createElement("div")
-			m.mount(root, {view: function() {return m("div")}})
-
-			o(root.childNodes.length).equals(1)
-			o(root.firstChild!.nodeName).equals("DIV")
-		})
-	})
-	o.spec("m.route", function() {
-		o("works", function(done: Function) {
-			var root = window.document.createElement("div")
-			m.route(root, "/a", {
-				"/a": {view: function() {return m("div")}}
-			})
-
-			setTimeout(function() {
-				o(root.childNodes.length).equals(1)
-				o(root.firstChild!.nodeName).equals("DIV")
-
-				done()
-			}, FRAME_BUDGET)
-		})
-		o("m.route.prefix", function(done: Function) {
-			var root = window.document.createElement("div")
-			m.route.prefix("#")
-			m.route(root, "/a", {
-				"/a": {view: function() {return m("div")}}
-			})
-
-			setTimeout(function() {
-				o(root.childNodes.length).equals(1)
-				o(root.firstChild!.nodeName).equals("DIV")
-
-				done()
-			}, FRAME_BUDGET)
-		})
-		o("m.route.get", function(done: Function) {
-			var root = window.document.createElement("div")
-			m.route(root, "/a", {
-				"/a": {view: function() {return m("div")}}
-			})
-
-			setTimeout(function() {
-				o(m.route.get()).equals("/a")
-
-				done()
-			}, FRAME_BUDGET)
-		})
-		o("m.route.set", function(done: Function, timeout: Function) {
-			timeout(100)
-			var root = window.document.createElement("div")
-			m.route(root, "/a", {
-				"/:id": {view: function() {return m("div")}}
-			})
-
-			setTimeout(function() {
-				m.route.set("/b")
-				setTimeout(function() {
-					o(m.route.get()).equals("/b")
-
-					done()
-				}, FRAME_BUDGET)
-			}, FRAME_BUDGET)
-		})
-	})
-	o.spec("m.redraw", function() {
-		o("works", function(done: Function) {
-			var count = 0
-			var root = window.document.createElement("div")
-			m.mount(root, {view: function() {count++}})
-			setTimeout(function() {
-				m.redraw()
-
-				o(count).equals(2)
-
-				done()
-			}, FRAME_BUDGET)
-		})
-	})
-	o.spec("m.request", function() {
-		o("works", function() {
-			o(typeof m.request).equals("function") // TODO improve
-		})
-	})
-	o.spec("m.jsonp", function() {
-		o("works", function() {
-			o(typeof m.jsonp).equals("function") // TODO improve
-		})
-	})
-})
+{
+	let count = 0
+	const root = window.document.createElement("div")
+	m.mount(root, {view: function() {count++}})
+	setTimeout(function() {
+		m.redraw()
+		console.assert(count === 2)
+	}, FRAME_BUDGET)
+}

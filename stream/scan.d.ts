@@ -1,4 +1,4 @@
-import {Stream} from './'
+import { Stream } from './'
 
 declare namespace Scan {
 	/** Creates a new stream with the results of calling the function on every incoming stream with and accumulator and the incoming value. */

@@ -1,4 +1,5 @@
-import * as m from 'mithril'
+import * as m from '../'
+import {Component} from '../'
 
 ///////////////////////////////////////////////////////////
 // 0.
@@ -20,7 +21,7 @@ m.mount(document.getElementById('comp0')!, null)
 // 1.
 // Simple example. Vnode type for component methods is inferred.
 //
-const comp1: Mithril.Component<{},{}> = {
+const comp1: Component<{},{}> = {
 	oncreate ({dom}) {
 		// vnode.dom type inferred
 	},
@@ -38,7 +39,7 @@ interface Comp2Attrs {
 	description: string
 }
 
-const comp2: Mithril.Component<Comp2Attrs,{}> = {
+const comp2: Component<Comp2Attrs,{}> = {
 	view ({attrs: {title, description}}) { // Comp2Attrs type is inferred
 		return [m('h2', title), m('p', description)]
 	}
@@ -50,7 +51,7 @@ const comp2: Mithril.Component<Comp2Attrs,{}> = {
 // Uses comp2 with typed attrs and makes use of `onremove`
 // lifecycle method.
 //
-const comp3: Mithril.Component<{pageHead: string},{}> = {
+const comp3: Component<{pageHead: string},{}> = {
 	oncreate ({dom}) {
 		// Can do stuff with dom
 	},
@@ -88,8 +89,8 @@ interface Comp4State {
 }
 
 // Either of these two Comp4 defs will work:
-type Comp4 = Mithril.Component<Comp4Attrs,Comp4State> & Comp4State
-//interface Comp4 extends Mithril.Component<Comp4Attrs,Comp4State>, Comp4State {}
+type Comp4 = Component<Comp4Attrs,Comp4State> & Comp4State
+//interface Comp4 extends Component<Comp4Attrs,Comp4State>, Comp4State {}
 
 const comp4: Comp4 = {
 	count: 0, // <- Must be declared to satisfy Comp4 type which includes Comp4State type
@@ -119,7 +120,7 @@ const comp4: Comp4 = {
 // Avoids the use of `this` completely; state manipulated
 // through vnode.state.
 //
-const comp5: Mithril.Component<Comp4Attrs,Comp4State> = {
+const comp5: Component<Comp4Attrs,Comp4State> = {
 	oninit ({state}) {
 		state.count = 0
 		state.add = num => {state.count += num}
@@ -155,4 +156,4 @@ export default {
 	view ({attrs}) {
 		return m('span', `name: ${attrs.name}, count: ${this.count}`)
 	}
-} as Mithril.Component<Attrs,State> & State
+} as Component<Attrs,State> & State
