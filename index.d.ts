@@ -43,7 +43,7 @@ declare namespace Mithril {
 		/** The onmatch hook is called when the router needs to find a component to render. */
 		render?: (this: State, vnode: Vnode<State, Params>) => Children;
 		/** The render method is called on every redraw for a matching route. */
-		onmatch?: (args: Params, requestedPath: string) => Component<any, any> | Promise<Component<any, any>> | void;
+		onmatch?: (args: Params, requestedPath: string) => Component<any, any> | Promise<any> | void;
 	}
 
 	/** This represents a key-value mapping linking routes to components. */
