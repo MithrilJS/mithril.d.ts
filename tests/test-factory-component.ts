@@ -50,7 +50,7 @@ const comp2 = function (vnode) { // vnode is inferred
 			return [m('h2', title), m('p', description)]
 		}
 	}
-} as FactoryComponent<Comp2Attrs,{}>
+} as FactoryComponent<Comp2Attrs>
 
 ///////////////////////////////////////////////////////////
 // 3.
@@ -82,7 +82,7 @@ const comp3 = function() {
 			)
 		}
 	}
-} as FactoryComponent<{pageHead: string},{}>
+} as FactoryComponent<{pageHead: string}>
 
 ///////////////////////////////////////////////////////////
 // 4.

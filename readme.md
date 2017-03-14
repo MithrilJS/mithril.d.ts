@@ -96,8 +96,33 @@ export default (function (vnode) {
     view ({attrs}) {
         return m('span', `name: ${attrs.name}, count: ${count}`)
     }
-}) as FactoryComponent<Attrs,{}>
+}) as FactoryComponent<Attrs>
 ```
+
+### Script/Global Usage
+
+If you are adding mithril to your page as a separate script, then you can use the global `m` object. All types are attached to this object. Example:
+
+```typescript
+interface Attrs {
+	name: string
+}
+
+interface State {
+	count: number
+}
+
+const component = {
+	oninit (vnode) {
+		vnode.state.count = 0
+	},
+	view (vnode) {
+		return m('span', `name: ${vnode.attrs.name}, count: ${vnode.state.count}`)
+	}
+} as m.Component<Attrs,State>
+```
+
+---
 
 For more example usage see the `tests` folder.
 

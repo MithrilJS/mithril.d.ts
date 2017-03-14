@@ -257,12 +257,12 @@ declare namespace Mithril {
 	}
 
 	// Factory component
-	export type FactoryComponent<A, S> = (vnode: Vnode<A, S>) => Component<A, S>
+	export type FactoryComponent<A> = (vnode: Vnode<A, {}>) => Component<A, {}>
 
 	/** Components are a mechanism to encapsulate parts of a view to make code easier to organize and/or reuse. Any Javascript object that has a view method is a Mithril component. Components can be consumed via the m() utility. */
 	export type Comp<Attrs, State extends Lifecycle<Attrs, State>> = Component<Attrs, State> & State;
 
-	export type ComponentTypes<A, S> = Component<A, S> | { new (vnode: CVnode<A>): ClassComponent<A> } | FactoryComponent<A, S>
+	export type ComponentTypes<A, S> = Component<A, S> | { new (vnode: CVnode<A>): ClassComponent<A> } | FactoryComponent<A>
 
 	/** This represents the attributes available for configuring virtual elements, beyond the applicable DOM attributes.*/
 	export interface Attributes extends Lifecycle<any, any> {
