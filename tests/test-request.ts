@@ -38,7 +38,7 @@ m.request<Result>('/item', {
 
 m.request<Result>('/id', {
 	method: "GET",
-	extract: xhr => JSON.stringify({id: xhr.responseText})
+	extract: xhr => ({id: Number(xhr.responseText)})
 }).then(result => {
 	console.log(result.id)
 })

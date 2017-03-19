@@ -75,8 +75,8 @@ declare namespace Mithril {
 		headers?: any;
 		type?: any;
 		serialize?: (data: any) => string;
-		deserialize?: (str: string) => T;
-		extract?: (xhr: XMLHttpRequest, options: RequestOptions<T>) => string;
+		deserialize?: (data: string) => T;
+		extract?: (xhr: XMLHttpRequest, options: RequestOptions<T>) => T;
 		useBody?: boolean;
 		background?: boolean;
 	}
