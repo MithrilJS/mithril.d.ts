@@ -1,6 +1,6 @@
 {
   "name": "@types/mithril",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Typescript Definitions for Mithril 1.0",
   "main": "index.d.ts",
   "scripts": {
