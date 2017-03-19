@@ -120,9 +120,9 @@ declare namespace Mithril {
 		/** A serialization method to be applied to data. Defaults to JSON.stringify, or if options.data is an instance of FormData, defaults to the identity function. */
 		serialize?: (data: any) => any;
 		/** A deserialization method to be applied to the response. Defaults to a small wrapper around JSON.parse that returns null for empty responses. */
-		deserialize?: (data: any) => T;
+		deserialize?: (data: string) => T;
 		/** A hook to specify how the XMLHttpRequest response should be read. Useful for reading response headers and cookies. Defaults to a function that returns xhr.responseText */
-		extract?: (xhr: XMLHttpRequest, options: RequestOptions<T>) => string;
+		extract?: (xhr: XMLHttpRequest, options: RequestOptions<T>) => T;
 		/** Force the use of the HTTP body section for data in GET requests when set to true, or the use of querystring for other HTTP methods when set to false. Defaults to false for GET requests and true for other methods. */
 		useBody?: boolean;
 		/** If false, redraws mounted components upon completion of the request. If true, it does not. */
