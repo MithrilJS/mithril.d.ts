@@ -20,7 +20,6 @@ which will add this entry to your package.json devDependencies:
 
 ```typescript
 import * as m from 'mithril'
-import {Component} from 'mithril'
 
 export interface Attrs {
 	name: string
@@ -37,10 +36,12 @@ export default {
 	view (vnode) {
 		return m('span', `name: ${vnode.attrs.name}, count: ${vnode.state.count}`)
 	}
-} as Component<Attrs,State>
+} as m.Component<Attrs,State>
 ```
 
-#### POJO `Comp` example using `this` state:
+Note that all types can be accessed via `m` as above.
+
+#### POJO `Comp` example using `this` state, importing `Comp` type separately:
 
 ```typescript
 import * as m from 'mithril'
@@ -85,7 +86,6 @@ export default class MyComponent implements ClassComponent<Attrs> {
 
 ```typescript
 import * as m from 'mithril'
-import {FactoryComponent} from 'mithril'
 
 export interface Attrs {
     name: string
@@ -96,7 +96,19 @@ export default (function (vnode) {
     view ({attrs}) {
         return m('span', `name: ${attrs.name}, count: ${count}`)
     }
-}) as FactoryComponent<Attrs>
+}) as m.FactoryComponent<Attrs>
+```
+
+### `Stream` example:
+
+```typescript
+import * as stream from 'mithril/stream'
+import {Stream} from 'mithril/stream'
+
+const num = stream(1)
+const text = stream<string>()
+let s: Stream<Foo>
+s(new Foo())
 ```
 
 ### Script/Global Usage
