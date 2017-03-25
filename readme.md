@@ -1,16 +1,20 @@
-# Typescript Definitions for [Mithril 1.0](https://github.com/lhorie/mithril.js)
+# Typescript Definitions for [Mithril 1.1](https://github.com/lhorie/mithril.js)
 
 Requires TypeScript 2.x.
 
 ## Install
 
-For now, install directly from this Github repo with:
+When this is merged to DefinitelyTyped, you can install with:
 
-	npm install -D github:spacejack/mithril.d.ts#improved
+	npm install -D @types/mithril
+
+Alternately, install directly from this Github repo with:
+
+	npm install -D github:spacejack/mithril.d.ts#dt-umd
 
 which will add this entry to your package.json devDependencies:
 
-	"@types/mithril": "github:spacejack/mithril.d.ts#improved"
+	"@types/mithril": "github:spacejack/mithril.d.ts#dt-umd"
 
 ### Promise support in ES5
 
@@ -158,7 +162,7 @@ const component = {
 
 ---
 
-For more example usage see the `tests` folder.
+For more example usage see the `test` folder.
 
 *Note that tests are not intended to run as-is, only that they compile without errors.
 
