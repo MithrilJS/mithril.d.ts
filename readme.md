@@ -12,6 +12,28 @@ which will add this entry to your package.json devDependencies:
 
 	"@types/mithril": "github:spacejack/mithril.d.ts#improved"
 
+### Promise support in ES5
+
+Please note that while Mithril polyfills Promise support, this type definition does not include a type declaration for Promises. You may see an error like:
+
+```
+'Promise' only refers to a type, but is being used as a value here.
+```
+
+To use promises, you should add the `"es2015.promise"` library option to your compiler options. In `tsconfig.json`:
+
+```JSON
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "es2015.promise",
+      ...
+    ]
+  }
+}
+```
+
 ---
 
 ### The Gist:
