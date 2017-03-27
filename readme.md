@@ -10,11 +10,11 @@ When this is merged to DefinitelyTyped, you can install with:
 
 Alternately, install directly from this Github repo with:
 
-	npm install -D github:spacejack/mithril.d.ts#dt-umd
+	npm install -D github:spacejack/mithril.d.ts#dt-module
 
 which will add this entry to your package.json devDependencies:
 
-	"@types/mithril": "github:spacejack/mithril.d.ts#dt-umd"
+	"@types/mithril": "github:spacejack/mithril.d.ts#dt-module"
 
 ### Promise support in ES5
 
