@@ -125,7 +125,7 @@ export default (function (vnode) {
 }) as m.FactoryComponent<Attrs>
 ```
 
-### `Stream` example:
+#### `Stream` example:
 
 ```typescript
 import * as stream from 'mithril/stream'
@@ -136,29 +136,11 @@ const text = stream<string>()
 let s: Stream<Foo>
 s(new Foo())
 ```
+---
 
-### Script/Global Usage
+## Script/Global Usage
 
-If you are adding mithril to your page as a separate script, then you can use the global `m` object. All types are attached to this object. Example:
-
-```typescript
-interface Attrs {
-	name: string
-}
-
-interface State {
-	count: number
-}
-
-const component = {
-	oninit (vnode) {
-		vnode.state.count = 0
-	},
-	view (vnode) {
-		return m('span', `name: ${vnode.attrs.name}, count: ${vnode.state.count}`)
-	}
-} as m.Component<Attrs,State>
-```
+If you are adding mithril to your page as a separate script, then you can install the [global version](https://github.com/spacejack/mithril-global.d.ts) of these types.
 
 ---
 

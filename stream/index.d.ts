@@ -41,5 +41,4 @@ declare namespace Stream {
 }
 
 declare const Stream: Stream.Static;
-export as namespace stream;
 export = Stream;
