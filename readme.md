@@ -1,27 +1,77 @@
-# Typescript Definitions for [Mithril 1.0](https://github.com/lhorie/mithril.js)
+# Typescript Definitions for [Mithril 1.1](https://github.com/lhorie/mithril.js)
 
 Requires TypeScript 2.x.
 
 ## Install
 
-For now, install directly from this Github repo with:
+When this is merged to DefinitelyTyped, you can install with:
 
-	npm install -D github:spacejack/mithril.d.ts#1.0.2
+	npm install -D @types/mithril
+
+Alternately, install directly from this Github repo with:
+
+	npm install -D github:spacejack/mithril.d.ts#1.1.0
 
 which will add this entry to your package.json devDependencies:
 
-	"@types/mithril": "github:spacejack/mithril.d.ts#1.0.2"
+	"@types/mithril": "github:spacejack/mithril.d.ts#1.1.0"
 
-**If you are not bundling** and instead are including mithril.js in a separate script tag then you will need to install the global version. You can find that [here](https://github.com/spacejack/mithril-global.d.ts).
+### Promise support in ES5
+
+Please note that while Mithril polyfills Promise support, this type definition does not include a type declaration for Promises. You may see an error like:
+
+```
+'Promise' only refers to a type, but is being used as a value here.
+```
+
+To use promises, you should add the `"es2015.promise"` library option to your compiler options. In `tsconfig.json`:
+
+```JSON
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "es2015.promise",
+      ...
+    ]
+  }
+}
+```
 
 ---
 
 ### The Gist:
 
-Here is a very basic component/module example:
+#### POJO `Component` example using `vnode.state`:
 
 ```typescript
 import * as m from 'mithril'
+
+export interface Attrs {
+	name: string
+}
+
+interface State {
+	count: number
+}
+
+export default {
+	oninit (vnode) {
+		vnode.state.count = 0
+	},
+	view (vnode) {
+		return m('span', `name: ${vnode.attrs.name}, count: ${vnode.state.count}`)
+	}
+} as m.Component<Attrs,State>
+```
+
+Note that all types can be accessed via `m` as above.
+
+#### POJO `Comp` example using `this` state, importing `Comp` type separately:
+
+```typescript
+import * as m from 'mithril'
+import {Comp} from 'mithril'
 
 export interface Attrs {
 	name: string
@@ -36,10 +86,65 @@ export default {
 	view ({attrs}) {
 		return m('span', `name: ${attrs.name}, count: ${this.count}`)
 	}
-} as Mithril.Component<Attrs,State> & State
+} as Comp<Attrs,State>
 ```
 
-For more example usage see the `tests` folder.
+#### `ClassComponent` example:
+
+```typescript
+import * as m from 'mithril'
+import {ClassComponent, CVnode} from 'mithril'
+
+export interface Attrs {
+    name: string
+}
+
+export default class MyComponent implements ClassComponent<Attrs> {
+    count = 0
+    // Note that class methods cannot infer parameter types
+    view ({attrs}: CVnode<Attrs>) {
+        return m('span', `name: ${attrs.name}, count: ${this.count}`)
+    }
+}
+```
+
+#### `FactoryComponent` example:
+
+```typescript
+import * as m from 'mithril'
+
+export interface Attrs {
+    name: string
+}
+
+export default (function (vnode) {
+    let count = 0
+    view ({attrs}) {
+        return m('span', `name: ${attrs.name}, count: ${count}`)
+    }
+}) as m.FactoryComponent<Attrs>
+```
+
+#### `Stream` example:
+
+```typescript
+import * as stream from 'mithril/stream'
+import {Stream} from 'mithril/stream'
+
+const num = stream(1)
+const text = stream<string>()
+let s: Stream<Foo>
+s(new Foo())
+```
+---
+
+## Script/Global Usage
+
+If you are adding mithril to your page as a separate script, then you can install the [global version](https://github.com/spacejack/mithril-global.d.ts) of these types.
+
+---
+
+For more example usage see the `test` folder.
 
 *Note that tests are not intended to run as-is, only that they compile without errors.
 
