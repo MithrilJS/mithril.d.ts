@@ -4,17 +4,17 @@ Requires TypeScript 2.x.
 
 ## Install
 
-When this is merged to DefinitelyTyped, you can install with:
+Install from npm with:
 
 	npm install -D @types/mithril
 
 Alternately, install directly from this Github repo with:
 
-	npm install -D github:spacejack/mithril.d.ts#1.1.0
+	npm install -D github:spacejack/mithril.d.ts#1.1.1
 
 which will add this entry to your package.json devDependencies:
 
-	"@types/mithril": "github:spacejack/mithril.d.ts#1.1.0"
+	"@types/mithril": "github:spacejack/mithril.d.ts#1.1.1"
 
 ### Promise support in ES5
 
@@ -134,7 +134,7 @@ import {Stream} from 'mithril/stream'
 const num = stream(1)
 const text = stream<string>()
 let s: Stream<Foo>
-s(new Foo())
+s = stream(new Foo())
 ```
 ---
 

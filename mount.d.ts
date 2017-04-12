@@ -1,3 +1,3 @@
-import { Mount } from "./";
-declare const mount: Mount;
+import { mount as _mount } from ".";
+declare const mount: typeof _mount;
 export = mount;

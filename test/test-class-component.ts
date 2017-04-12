@@ -1,5 +1,5 @@
-import * as m from '../'
-import {ClassComponent, CVnode, CVnodeDOM} from '../'
+import * as m from '..'
+import {ClassComponent, CVnode, CVnodeDOM} from '..'
 
 ///////////////////////////////////////////////////////////
 // 0.

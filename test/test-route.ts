@@ -1,4 +1,4 @@
-import {Component} from '../'
+import {Component} from '..'
 import * as h from '../hyperscript'
 import * as route from '../route'
 

@@ -1,4 +1,4 @@
-import * as request from '../request'
+import {request} from '../request'
 
 interface Result {
 	id: number

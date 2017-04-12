@@ -1,5 +1,5 @@
-import * as m from '../'
-import {Component, FactoryComponent, Vnode} from '../'
+import * as m from '..'
+import {Component, FactoryComponent, Vnode} from '..'
 
 ///////////////////////////////////////////////////////////
 // 0.

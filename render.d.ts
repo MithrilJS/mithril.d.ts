@@ -1,3 +1,10 @@
-import { Render } from "./";
-declare const render: Render;
-export = render;
+import { render } from ".";
+
+declare namespace RenderService {
+	export interface Static {
+		render: typeof render;
+	}
+}
+
+declare const RenderService: RenderService.Static;
+export = RenderService;

@@ -1,3 +1,3 @@
-import { WithAttr } from "./";
-declare const withAttr: WithAttr;
+import { withAttr as _withAttr } from ".";
+declare const withAttr: typeof _withAttr;
 export = withAttr;

@@ -1,8 +1,7 @@
 {
   "name": "@types/mithril",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Typescript Definitions for Mithril 1.1",
-  "main": "index.d.ts",
   "scripts": {
     "test": "tsc"
   },
@@ -10,14 +9,28 @@
     "type": "git",
     "url": "git+https://github.com/spacejack/mithril.d.ts.git"
   },
-  "author": "spacejack",
+  "contributors": [
+    {
+      "name": "Mike Linkovich",
+      "url": "https://github.com/spacejack/mithril.d.ts#readme"
+    },
+    {
+      "name": "András Parditka",
+      "url": "https://github.com/andraaspar"
+    },
+    {
+      "name": "Isiah Meadows",
+      "url": "https://github.com/isiahmeadows"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/spacejack/mithril.d.ts/issues"
   },
   "homepage": "https://github.com/spacejack/mithril.d.ts#readme",
   "devDependencies": {
-    "tslint": "^4.5.1",
-    "typescript": "^2.2.1"
+    "tslint": "^5.0.0",
+    "typescript": "^2.2.2",
+    "dtslint": "Microsoft/dtslint#production"
   }
 }
