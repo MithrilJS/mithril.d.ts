@@ -228,6 +228,11 @@ declare namespace Mithril {
 	/** Components are a mechanism to encapsulate parts of a view to make code easier to organize and/or reuse. Components can be consumed via the m() utility. */
 	export type ComponentTypes<A, S> = Component<A, S> | { new (vnode: CVnode<A>): ClassComponent<A> } | FactoryComponent<A>
 
+	/** A redraw boolean property can be set on all events received by event handlers created by hyperscript */
+	export interface VEvent {
+		redraw: boolean
+	}
+
 	/** This represents the attributes available for configuring virtual elements, beyond the applicable DOM attributes. */
 	export interface Attributes extends Lifecycle<any, any> {
 		/** The class name(s) for this virtual element, as a space-separated list. */
@@ -236,7 +241,118 @@ declare namespace Mithril {
 		class?: string;
 		/** A key to optionally associate with this element. */
 		key?: string | number;
-		/** Any other virtual element properties, including attributes and event handlers. */
+		// Event handlers
+		// Global
+		onpointercancel?: (this: GlobalEventHandlers, ev: PointerEvent & VEvent) => any;
+		onpointerdown?: (this: GlobalEventHandlers, ev: PointerEvent & VEvent) => any;
+		onpointerenter?: (this: GlobalEventHandlers, ev: PointerEvent & VEvent) => any;
+		onpointerleave?: (this: GlobalEventHandlers, ev: PointerEvent & VEvent) => any;
+		onpointermove?: (this: GlobalEventHandlers, ev: PointerEvent & VEvent) => any;
+		onpointerout?: (this: GlobalEventHandlers, ev: PointerEvent & VEvent) => any;
+		onpointerover?: (this: GlobalEventHandlers, ev: PointerEvent & VEvent) => any;
+		onpointerup?: (this: GlobalEventHandlers, ev: PointerEvent & VEvent) => any;
+		onwheel?: (this: GlobalEventHandlers, ev: WheelEvent & VEvent) => any;
+		// Element
+		onariarequest?: (this: Element, ev: Event & VEvent) => any;
+		oncommand?: (this: Element, ev: Event & VEvent) => any;
+		ongotpointercapture?: (this: Element, ev: PointerEvent & VEvent) => any;
+		onlostpointercapture?: (this: Element, ev: PointerEvent & VEvent) => any;
+		onmsgesturechange?: (this: Element, ev: MSGestureEvent & VEvent) => any;
+		onmsgesturedoubletap?: (this: Element, ev: MSGestureEvent & VEvent) => any;
+		onmsgestureend?: (this: Element, ev: MSGestureEvent & VEvent) => any;
+		onmsgesturehold?: (this: Element, ev: MSGestureEvent & VEvent) => any;
+		onmsgesturestart?: (this: Element, ev: MSGestureEvent & VEvent) => any;
+		onmsgesturetap?: (this: Element, ev: MSGestureEvent & VEvent) => any;
+		onmsgotpointercapture?: (this: Element, ev: MSPointerEvent & VEvent) => any;
+		onmsinertiastart?: (this: Element, ev: MSGestureEvent & VEvent) => any;
+		onmslostpointercapture?: (this: Element, ev: MSPointerEvent & VEvent) => any;
+		onmspointercancel?: (this: Element, ev: MSPointerEvent & VEvent) => any;
+		onmspointerdown?: (this: Element, ev: MSPointerEvent & VEvent) => any;
+		onmspointerenter?: (this: Element, ev: MSPointerEvent & VEvent) => any;
+		onmspointerleave?: (this: Element, ev: MSPointerEvent & VEvent) => any;
+		onmspointermove?: (this: Element, ev: MSPointerEvent & VEvent) => any;
+		onmspointerout?: (this: Element, ev: MSPointerEvent & VEvent) => any;
+		onmspointerover?: (this: Element, ev: MSPointerEvent & VEvent) => any;
+		onmspointerup?: (this: Element, ev: MSPointerEvent & VEvent) => any;
+		ontouchcancel?: (ev: TouchEvent & VEvent) => any;
+		ontouchend?: (ev: TouchEvent & VEvent) => any;
+		ontouchmove?: (ev: TouchEvent & VEvent) => any;
+		ontouchstart?: (ev: TouchEvent & VEvent) => any;
+		onwebkitfullscreenchange?: (this: Element, ev: Event & VEvent) => any;
+		onwebkitfullscreenerror?: (this: Element, ev: Event & VEvent) => any;
+		// HTMLElement
+		onabort?: (this: HTMLElement, ev: UIEvent & VEvent) => any;
+		onactivate?: (this: HTMLElement, ev: UIEvent & VEvent) => any;
+		onbeforeactivate?: (this: HTMLElement, ev: UIEvent & VEvent) => any;
+		onbeforecopy?: (this: HTMLElement, ev: ClipboardEvent & VEvent) => any;
+		onbeforecut?: (this: HTMLElement, ev: ClipboardEvent & VEvent) => any;
+		onbeforedeactivate?: (this: HTMLElement, ev: UIEvent & VEvent) => any;
+		onbeforepaste?: (this: HTMLElement, ev: ClipboardEvent & VEvent) => any;
+		onblur?: (this: HTMLElement, ev: FocusEvent & VEvent) => any;
+		oncanplay?: (this: HTMLElement, ev: Event & VEvent) => any;
+		oncanplaythrough?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onchange?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onclick?: (this: HTMLElement, ev: MouseEvent & VEvent) => any;
+		oncontextmenu?: (this: HTMLElement, ev: PointerEvent & VEvent) => any;
+		oncopy?: (this: HTMLElement, ev: ClipboardEvent & VEvent) => any;
+		oncuechange?: (this: HTMLElement, ev: Event & VEvent) => any;
+		oncut?: (this: HTMLElement, ev: ClipboardEvent & VEvent) => any;
+		ondblclick?: (this: HTMLElement, ev: MouseEvent & VEvent) => any;
+		ondeactivate?: (this: HTMLElement, ev: UIEvent & VEvent) => any;
+		ondrag?: (this: HTMLElement, ev: DragEvent & VEvent) => any;
+		ondragend?: (this: HTMLElement, ev: DragEvent & VEvent) => any;
+		ondragenter?: (this: HTMLElement, ev: DragEvent & VEvent) => any;
+		ondragleave?: (this: HTMLElement, ev: DragEvent & VEvent) => any;
+		ondragover?: (this: HTMLElement, ev: DragEvent & VEvent) => any;
+		ondragstart?: (this: HTMLElement, ev: DragEvent & VEvent) => any;
+		ondrop?: (this: HTMLElement, ev: DragEvent & VEvent) => any;
+		ondurationchange?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onemptied?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onended?: (this: HTMLElement, ev: MediaStreamErrorEvent & VEvent) => any;
+		onerror?: (this: HTMLElement, ev: ErrorEvent & VEvent) => any;
+		onfocus?: (this: HTMLElement, ev: FocusEvent & VEvent) => any;
+		oninput?: (this: HTMLElement, ev: Event & VEvent) => any;
+		oninvalid?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onkeydown?: (this: HTMLElement, ev: KeyboardEvent & VEvent) => any;
+		onkeypress?: (this: HTMLElement, ev: KeyboardEvent & VEvent) => any;
+		onkeyup?: (this: HTMLElement, ev: KeyboardEvent & VEvent) => any;
+		onload?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onloadeddata?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onloadedmetadata?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onloadstart?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onmousedown?: (this: HTMLElement, ev: MouseEvent & VEvent) => any;
+		onmouseenter?: (this: HTMLElement, ev: MouseEvent & VEvent) => any;
+		onmouseleave?: (this: HTMLElement, ev: MouseEvent & VEvent) => any;
+		onmousemove?: (this: HTMLElement, ev: MouseEvent & VEvent) => any;
+		onmouseout?: (this: HTMLElement, ev: MouseEvent & VEvent) => any;
+		onmouseover?: (this: HTMLElement, ev: MouseEvent & VEvent) => any;
+		onmouseup?: (this: HTMLElement, ev: MouseEvent & VEvent) => any;
+		onmousewheel?: (this: HTMLElement, ev: WheelEvent & VEvent) => any;
+		onmscontentzoom?: (this: HTMLElement, ev: UIEvent & VEvent) => any;
+		onmsmanipulationstatechanged?: (this: HTMLElement, ev: MSManipulationEvent & VEvent) => any;
+		onpaste?: (this: HTMLElement, ev: ClipboardEvent & VEvent) => any;
+		onpause?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onplay?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onplaying?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onprogress?: (this: HTMLElement, ev: ProgressEvent & VEvent) => any;
+		onratechange?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onreset?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onscroll?: (this: HTMLElement, ev: UIEvent & VEvent) => any;
+		onseeked?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onseeking?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onselect?: (this: HTMLElement, ev: UIEvent & VEvent) => any;
+		onselectstart?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onstalled?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onsubmit?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onsuspend?: (this: HTMLElement, ev: Event & VEvent) => any;
+		ontimeupdate?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onvolumechange?: (this: HTMLElement, ev: Event & VEvent) => any;
+		onwaiting?: (this: HTMLElement, ev: Event & VEvent) => any;
+		// SVGSVGElement
+		onresize?: (this: SVGSVGElement, ev: UIEvent & VEvent) => any;
+		onunload?: (this: SVGSVGElement, ev: Event & VEvent) => any;
+		onzoom?: (this: SVGSVGElement, ev: SVGZoomEvent & VEvent) => any;
+		/** Any other virtual element properties. */
 		[property: string]: any;
 	}
 }

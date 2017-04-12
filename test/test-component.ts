@@ -130,7 +130,15 @@ const comp5: Component<Comp4Attrs,Comp4State> = {
 			m('h1', `This ${attrs.name} has been clicked ${state.count} times`),
 			m('button',
 				{
-					onclick: () => {state.add(1)}
+					onclick: () => {
+						state.add(1)
+					},
+					ontouchmove: e => {
+						// Event is typed as TouchEvent
+						const x = e.changedTouches[0].clientX
+						// And has Mithril's redraw-prevention property
+						e.redraw = false
+					}
 				},
 				"Click me"
 			)

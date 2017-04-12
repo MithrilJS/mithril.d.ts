@@ -100,7 +100,15 @@ class Comp4 implements ClassComponent<Comp4Attrs> {
 			m('h1', `This ${attrs.name} has been clicked ${this.count} times`),
 			m('button',
 				{
-					onclick: () => this.add(1)
+					onclick: () => {
+						this.add(1)
+					},
+					ontouchmove: e => {
+						// Event is typed as TouchEvent
+						const x = e.changedTouches[0].clientX
+						// And has Mithril's redraw-prevention property
+						e.redraw = false
+					}
 				},
 			"Click me")
 		]
