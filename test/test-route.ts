@@ -1,4 +1,4 @@
-import {Component} from '..';
+import {Component, RouteResolver} from '..';
 import * as h from '../hyperscript';
 import * as route from '../route';
 
@@ -13,6 +13,31 @@ const component2 = {
 		return h('h1', title);
 	}
 } as Component<{title: string}, {}>;
+
+interface Attrs {
+	id: string;
+}
+
+const component3 = {
+	view({attrs}) {
+		return h('p', 'id: ' + attrs.id);
+	}
+} as Component<Attrs, {}>;
+
+// RouteResolver example using Attrs type and this context
+const routeResolver: RouteResolver<Attrs> & {message: string} = {
+	message: "",
+	onmatch(attrs, path) {
+		this.message = "Match";
+		const id: string = attrs.id;
+		return component3;
+	},
+	render(vnode) {
+		this.message = "Render";
+		vnode.key = vnode.attrs.id;
+		return vnode;
+	}
+};
 
 route(document.body, '/', {
 	'/': component1,
@@ -41,7 +66,8 @@ route(document.body, '/', {
 				resolve(component2);
 			});
 		}
-	}
+	},
+	'test5/:id': routeResolver
 });
 
 route.prefix('/app');

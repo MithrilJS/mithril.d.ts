@@ -61,17 +61,17 @@ declare namespace Mithril {
 		trust(html: string): Vnode<any, any>;
 	}
 
-	interface RouteResolver<State, Params> {
+	interface RouteResolver<Attrs> {
 		/** The onmatch hook is called when the router needs to find a component to render. */
-		render?(this: State, vnode: Vnode<State, Params>): Children;
+		onmatch?(this: this, args: Attrs, requestedPath: string): Component<any, any> | Promise<any> | void;
 		/** The render method is called on every redraw for a matching route. */
-		onmatch?(args: Params, requestedPath: string): Component<any, any> | Promise<any> | void;
+		render?(this: this, vnode: Vnode<Attrs, {}>): Children;
 	}
 
 	/** This represents a key-value mapping linking routes to components. */
 	interface RouteDefs {
 		/** The key represents the route. The value represents the corresponding component. */
-		[url: string]: ComponentTypes<any, any> | RouteResolver<any, any>;
+		[url: string]: ComponentTypes<any, any> | RouteResolver<any>;
 	}
 
 	interface RouteOptions {
