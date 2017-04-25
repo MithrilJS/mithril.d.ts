@@ -1,4 +1,4 @@
-import {Component, RouteResolver} from '..';
+import {Component, Comp, RouteResolver} from '..';
 import * as h from '../hyperscript';
 import * as route from '../route';
 
@@ -18,14 +18,22 @@ interface Attrs {
 	id: string;
 }
 
-const component3 = {
+interface State {
+	text: string;
+}
+
+const component3: Comp<Attrs, State> = {
+	text: "Uninitialized",
+	oninit({state}) {
+		state.text = "Initialized";
+	},
 	view({attrs}) {
 		return h('p', 'id: ' + attrs.id);
 	}
-} as Component<Attrs, {}>;
+};
 
 // RouteResolver example using Attrs type and this context
-const routeResolver: RouteResolver<Attrs> & {message: string} = {
+const routeResolver: RouteResolver<Attrs, State> & {message: string} = {
 	message: "",
 	onmatch(attrs, path) {
 		this.message = "Match";
