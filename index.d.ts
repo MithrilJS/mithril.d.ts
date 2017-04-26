@@ -232,7 +232,7 @@ declare namespace Mithril {
 		/** The onremove hook is called before a DOM element is removed from the document. */
 		onupdate?(vnode: VnodeDOM<A, this>): any;
 		/** Creates a view out of virtual elements. */
-		view(vnode: CVnode<A>): Children | null | void;
+		view(vnode: Vnode<A, this>): Children | null | void;
 	}
 
 	/**
