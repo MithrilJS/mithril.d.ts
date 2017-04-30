@@ -71,7 +71,7 @@ declare namespace Mithril {
 	/** This represents a key-value mapping linking routes to components. */
 	interface RouteDefs {
 		/** The key represents the route. The value represents the corresponding component. */
-		[url: string]: ComponentTypes<any, any> | RouteResolver<any,any>;
+		[url: string]: ComponentTypes<any, any> | RouteResolver<any, any>;
 	}
 
 	interface RouteOptions {
