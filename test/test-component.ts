@@ -21,7 +21,7 @@ m.mount(document.getElementById('comp0')!, null);
 // 1.
 // Simple example. Vnode type for component methods is inferred.
 //
-const comp1: Component<{}, {}> = {
+const comp1: Component = {
 	oncreate({dom}) {
 		// vnode.dom type inferred
 	},
@@ -39,7 +39,7 @@ interface Comp2Attrs {
 	description: string;
 }
 
-const comp2: Component<Comp2Attrs, {}> = {
+const comp2: Component<Comp2Attrs> = {
 	view({attrs: {title, description}}) { // Comp2Attrs type is inferred
 		return [m('h2', title), m('p', description)];
 	}
@@ -51,7 +51,7 @@ const comp2: Component<Comp2Attrs, {}> = {
 // Uses comp2 with typed attrs and makes use of `onremove`
 // lifecycle method.
 //
-const comp3: Component<{pageHead: string}, {}> = {
+const comp3: Component<{pageHead: string}> = {
 	oncreate({dom}) {
 		// Can do stuff with dom
 	},

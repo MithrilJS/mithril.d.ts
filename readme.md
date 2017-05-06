@@ -10,11 +10,11 @@ Install from npm with:
 
 Alternately, install directly from this Github repo with:
 
-	npm install -D github:spacejack/mithril.d.ts#1.1.4
+	npm install -D github:spacejack/mithril.d.ts#1.1.5
 
 which will add this entry to your package.json devDependencies:
 
-	"@types/mithril": "github:spacejack/mithril.d.ts#1.1.4"
+	"@types/mithril": "github:spacejack/mithril.d.ts#1.1.5"
 
 ### Promise support in ES5
 

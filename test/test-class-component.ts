@@ -5,7 +5,7 @@ import {ClassComponent, Vnode, CVnode, CVnodeDOM} from '..';
 // 0.
 // Simplest component example - no attrs or state.
 //
-class Comp0 implements ClassComponent<{}> {
+class Comp0 implements ClassComponent {
 	constructor(vnode: CVnode<{}>) {
 	}
 	view() {
@@ -23,7 +23,7 @@ m.mount(document.getElementById('comp0')!, null);
 // 1.
 // Simple example with lifecycle methods.
 //
-class Comp1 implements ClassComponent<{}> {
+class Comp1 implements ClassComponent {
 	oninit(vnode: CVnode<{}>) {
 	}
 	oncreate({dom}: CVnodeDOM<{}>) {

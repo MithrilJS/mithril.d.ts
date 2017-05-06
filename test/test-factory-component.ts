@@ -31,7 +31,7 @@ function comp1() {
 		view(vnode) {
 			return m('span', "Test");
 		}
-	} as Component<{}, {}>;
+	} as Component;
 }
 
 ///////////////////////////////////////////////////////////
@@ -89,7 +89,7 @@ interface Comp4Attrs {
 	name: string;
 }
 
-function comp4(): Component<Comp4Attrs, {}> {
+function comp4(): Component<Comp4Attrs> {
 	let count = 0;
 
 	function add(num: number) {
@@ -165,7 +165,7 @@ interface Attrs {
 	name: string;
 }
 
-export default (): Component<Attrs, {}> => {
+export default (): Component<Attrs> => {
 	let count = 0;
 	return {
 		view({attrs}) {

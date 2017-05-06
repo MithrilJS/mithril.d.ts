@@ -2,7 +2,7 @@
 // Project: https://mithril.js.org/
 // Definitions by: Mike Linkovich <https://github.com/spacejack>, András Parditka <https://github.com/andraaspar>, Isiah Meadows <https://github.com/isiahmeadows>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.2
+// TypeScript Version: 2.3
 
 /** Manually triggers a redraw of mounted components. */
 declare function redraw(): void;
@@ -16,9 +16,9 @@ declare function mount(element: Element, component: Mithril.ComponentTypes<any, 
 declare function mount(element: Element, component: null): void; // tslint:disable-line unified-signatures
 
 /** Makes an XHR request and returns a promise. */
-declare function request <T>(options: Mithril.RequestOptions<T> & { url: string }): Promise<T>;
+declare function request<T>(options: Mithril.RequestOptions<T> & { url: string }): Promise<T>;
 /** Makes an XHR request and returns a promise. */
-declare function request <T>(url: string, options?: Mithril.RequestOptions<T>): Promise<T>;
+declare function request<T>(url: string, options?: Mithril.RequestOptions<T>): Promise<T>;
 
 /** Makes a JSON-P request and returns a promise. */
 declare function jsonp<T>(options: Mithril.JsonpOptions & { url: string }): Promise<T>;
@@ -61,7 +61,7 @@ declare namespace Mithril {
 		trust(html: string): Vnode<any, any>;
 	}
 
-	interface RouteResolver<Attrs, State> {
+	interface RouteResolver<Attrs = {}, State = {}> {
 		/** The onmatch hook is called when the router needs to find a component to render. */
 		onmatch?(this: this, args: Attrs, requestedPath: string): Component<any, any> | Promise<any> | void;
 		/** The render method is called on every redraw for a matching route. */
@@ -208,7 +208,7 @@ declare namespace Mithril {
 	 * Any Javascript object that has a view method can be used as a Mithril component.
 	 * Components can be consumed via the m() utility.
 	 */
-	interface Component<Attrs, State extends Lifecycle<Attrs, State>> extends Lifecycle<Attrs, State> {
+	interface Component<Attrs = {}, State extends Lifecycle<Attrs, State> = Lifecycle<Attrs, State>> extends Lifecycle<Attrs, State> {
 		/** Creates a view out of virtual elements. */
 		view(this: State, vnode: Vnode<Attrs, State>): Children | null | void;
 	}
@@ -218,7 +218,7 @@ declare namespace Mithril {
 	 * Any class that implements a view method can be used as a Mithril component.
 	 * Components can be consumed via the m() utility.
 	 */
-	interface ClassComponent<A> extends Lifecycle<A, ClassComponent<A>> {
+	interface ClassComponent<A = {}> extends Lifecycle<A, ClassComponent<A>> {
 		/** The oninit hook is called before a vnode is touched by the virtual DOM engine. */
 		oninit?(vnode: Vnode<A, this>): any;
 		/** The oncreate hook is called after a DOM element is created and attached to the document. */
@@ -240,7 +240,7 @@ declare namespace Mithril {
 	 * Any function that returns an object with a view method can be used as a Mithril component.
 	 * Components can be consumed via the m() utility.
 	 */
-	type FactoryComponent<A> = (vnode: Vnode<A, {}>) => Component<A, {}>;
+	type FactoryComponent<A = {}> = (vnode: Vnode<A, {}>) => Component<A, {}>;
 
 	/**
 	 * Components are a mechanism to encapsulate parts of a view to make code easier to organize and/or reuse.
@@ -249,7 +249,7 @@ declare namespace Mithril {
 	type Comp<Attrs, State extends Lifecycle<Attrs, State>> = Component<Attrs, State> & State;
 
 	/** Components are a mechanism to encapsulate parts of a view to make code easier to organize and/or reuse. Components can be consumed via the m() utility. */
-	type ComponentTypes<A, S> = Component<A, S> | { new (vnode: CVnode<A>): ClassComponent<A> } | FactoryComponent<A>;
+	type ComponentTypes<A, S> = Component<A, S> | { new (vnode: Vnode<A, S>): ClassComponent<A> } | FactoryComponent<A>;
 
 	/** This represents the attributes available for configuring virtual elements, beyond the applicable DOM attributes. */
 	interface Attributes extends Lifecycle<any, any> {
