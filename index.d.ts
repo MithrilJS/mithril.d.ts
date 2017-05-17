@@ -208,7 +208,7 @@ declare namespace Mithril {
 	 * Any Javascript object that has a view method can be used as a Mithril component.
 	 * Components can be consumed via the m() utility.
 	 */
-	interface Component<Attrs = {}, State extends Lifecycle<Attrs, State> = Lifecycle<Attrs, State>> extends Lifecycle<Attrs, State> {
+	interface Component<Attrs = {}, State extends Lifecycle<Attrs, State> = {}> extends Lifecycle<Attrs, State> {
 		/** Creates a view out of virtual elements. */
 		view(this: State, vnode: Vnode<Attrs, State>): Children | null | void;
 	}
