@@ -29,8 +29,10 @@
   },
   "homepage": "https://github.com/spacejack/mithril.d.ts#readme",
   "devDependencies": {
-    "tslint": "^5.2.0",
-    "typescript": "^2.3.2",
-    "dtslint": "Microsoft/dtslint#production"
+    "dtslint": "Microsoft/dtslint#production",
+    "tslint": "^5.4.3",
+    "typescript": "^2.4.0"
+  },
+  "dependencies": {
   }
 }

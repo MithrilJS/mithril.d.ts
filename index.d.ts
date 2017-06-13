@@ -2,7 +2,7 @@
 // Project: https://mithril.js.org/
 // Definitions by: Mike Linkovich <https://github.com/spacejack>, András Parditka <https://github.com/andraaspar>, Isiah Meadows <https://github.com/isiahmeadows>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.3
+// TypeScript Version: 2.4
 
 /** Manually triggers a redraw of mounted components. */
 declare function redraw(): void;
@@ -44,6 +44,7 @@ declare namespace Mithril {
 		onbeforeupdate?(this: State, vnode: Vnode<Attrs, State>, old: VnodeDOM<Attrs, State>): boolean | void;
 		/** The onremove hook is called before a DOM element is removed from the document. */
 		onupdate?(this: State, vnode: VnodeDOM<Attrs, State>): any;
+		[_: number]: any;
 	}
 
 	interface Hyperscript {
@@ -208,7 +209,7 @@ declare namespace Mithril {
 	 * Any Javascript object that has a view method can be used as a Mithril component.
 	 * Components can be consumed via the m() utility.
 	 */
-	interface Component<Attrs = {}, State extends Lifecycle<Attrs, State> = {}> extends Lifecycle<Attrs, State> {
+	interface Component<Attrs = {}, State extends Lifecycle<Attrs, State> = Lifecycle<Attrs, State>> extends Lifecycle<Attrs, State> {
 		/** Creates a view out of virtual elements. */
 		view(this: State, vnode: Vnode<Attrs, State>): Children | null | void;
 	}
