@@ -6,15 +6,7 @@ Requires TypeScript 2.x.
 
 Install from npm with:
 
-	npm install -D @types/mithril
-
-Alternately, install directly from this Github repo with:
-
-	npm install -D github:spacejack/mithril.d.ts#1.1.6
-
-which will add this entry to your package.json devDependencies:
-
-	"@types/mithril": "github:spacejack/mithril.d.ts#1.1.6"
+    npm install -D @types/mithril
 
 ### Promise support in ES5
 
@@ -48,20 +40,20 @@ To use promises, you should add the `"es2015.promise"` library option to your co
 import * as m from 'mithril'
 
 export interface Attrs {
-	name: string
+  name: string
 }
 
 interface State {
-	count: number
+  count: number
 }
 
 export default {
-	oninit (vnode) {
-		vnode.state.count = 0
-	},
-	view (vnode) {
-		return m('span', `name: ${vnode.attrs.name}, count: ${vnode.state.count}`)
-	}
+  oninit (vnode) {
+    vnode.state.count = 0
+  },
+  view (vnode) {
+    return m('span', `name: ${vnode.attrs.name}, count: ${vnode.state.count}`)
+  }
 } as m.Component<Attrs,State>
 ```
 
@@ -74,18 +66,18 @@ import * as m from 'mithril'
 import {Comp} from 'mithril'
 
 export interface Attrs {
-	name: string
+  name: string
 }
 
 interface State {
-	count: number
+  count: number
 }
 
 export default {
-	count: 0,
-	view ({attrs}) {
-		return m('span', `name: ${attrs.name}, count: ${this.count}`)
-	}
+  count: 0,
+  view ({attrs}) {
+    return m('span', `name: ${attrs.name}, count: ${this.count}`)
+  }
 } as Comp<Attrs,State>
 ```
 
@@ -100,11 +92,11 @@ export interface Attrs {
 }
 
 export default class MyComponent implements ClassComponent<Attrs> {
-    count = 0
-    // Note that class methods cannot infer parameter types
-    view ({attrs}: CVnode<Attrs>) {
-        return m('span', `name: ${attrs.name}, count: ${this.count}`)
-    }
+  count = 0
+  // Note that class methods cannot infer parameter types
+  view ({attrs}: CVnode<Attrs>) {
+    return m('span', `name: ${attrs.name}, count: ${this.count}`)
+  }
 }
 ```
 
@@ -114,13 +106,13 @@ export default class MyComponent implements ClassComponent<Attrs> {
 import * as m from 'mithril'
 
 export interface Attrs {
-    name: string
+  name: string
 }
 
 export default (function (vnode) {
   let count = 0;
   return {
-    view({ attrs }) {
+    view ({attrs}) {
       return m('span', `name: ${attrs.name}, count: ${count}`)
     }
   }
@@ -148,12 +140,14 @@ If you are adding mithril to your page as a separate script, then you can instal
 
 For more example usage see the `test` folder.
 
+**NOTE** This repo is out of date and out of sync with DefinitelyTyped. Please use the DT types and test code. This repo is maintained primarily for documentation and issues.
+
 *Note that tests are not intended to run as-is, only that they compile without errors.
 
 To compile the tests:
 
-	npm install
-	npm test
+    npm install
+    npm test
 
 ---
 
