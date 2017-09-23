@@ -88,7 +88,7 @@ import * as m from 'mithril'
 import {ClassComponent, CVnode} from 'mithril'
 
 export interface Attrs {
-    name: string
+  name: string
 }
 
 export default class MyComponent implements ClassComponent<Attrs> {
@@ -148,7 +148,3 @@ To compile the tests:
 
     npm install
     npm test
-
----
-
-Pull requests and issues are welcome.
