@@ -118,10 +118,12 @@ export interface Attrs {
 }
 
 export default (function (vnode) {
-    let count = 0
-    view ({attrs}) {
-        return m('span', `name: ${attrs.name}, count: ${count}`)
+  let count = 0;
+  return {
+    view({ attrs }) {
+      return m('span', `name: ${attrs.name}, count: ${count}`)
     }
+  }
 }) as m.FactoryComponent<Attrs>
 ```
 
