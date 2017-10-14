@@ -1,7 +1,7 @@
-import {trust, parseQueryString, buildQueryString} from '..';
+import { trust, parseQueryString, buildQueryString } from '..';
 import * as h from '../hyperscript';
-import {render} from '../render';
-import {redraw} from '../redraw';
+import { render } from '../render';
+import { redraw } from '../redraw';
 import * as withAttr from '../withAttr';
 
 const vnode = trust('Some <strong>bold</strong> text.');

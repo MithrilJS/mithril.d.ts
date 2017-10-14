@@ -1,4 +1,4 @@
-import {jsonp} from '../request';
+import { jsonp } from '../request';
 
 interface Result {
 	id: number;

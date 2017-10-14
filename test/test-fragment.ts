@@ -1,5 +1,5 @@
 import * as m from '..';
-import {Vnode} from '../';
+import { Vnode } from '../';
 import * as h from '../hyperscript';
 
 const vnode = m.fragment({id: 'abc'}, ['test']);
