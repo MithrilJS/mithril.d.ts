@@ -9,7 +9,7 @@ m.fragment({}, ['Test', 123]);
 m.fragment(
 	{
 		id: 'abc',
-		oninit: (vnode: Vnode<any, any>) => {
+		oninit: (vnode) => {
 			console.log('oninit');
 		}
 	},
