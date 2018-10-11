@@ -16,9 +16,9 @@ declare function mount(element: Element, component: Mithril.ComponentTypes<any, 
 declare function mount(element: Element, component: null): void; // tslint:disable-line unified-signatures
 
 /** Makes an XHR request and returns a promise. */
-declare function request <T>(options: Mithril.RequestOptions<T> & { url: string }): Promise<T>;
+declare function request<T>(options: Mithril.RequestOptions<T> & { url: string }): Promise<T>;
 /** Makes an XHR request and returns a promise. */
-declare function request <T>(url: string, options?: Mithril.RequestOptions<T>): Promise<T>;
+declare function request<T>(url: string, options?: Mithril.RequestOptions<T>): Promise<T>;
 
 /** Makes a JSON-P request and returns a promise. */
 declare function jsonp<T>(options: Mithril.JsonpOptions & { url: string }): Promise<T>; // tslint:disable-line:no-unnecessary-generics
@@ -41,7 +41,7 @@ declare namespace Mithril {
 		/** The onremove hook is called before a DOM element is removed from the document. */
 		onremove?(this: State, vnode: VnodeDOM<Attrs, State>): any;
 		/** The onbeforeupdate hook is called before a vnode is diffed in a update. */
-		onbeforeupdate?(this: State, vnode: Vnode<Attrs, State>, old: VnodeDOM<Attrs, State>): boolean | void;
+		onbeforeupdate?(this: State, vnode: VnodeDOM<Attrs, State>, old: VnodeDOM<Attrs, State>): boolean | void;
 		/** The onupdate hook is called after a DOM element is updated, while attached to the document. */
 		onupdate?(this: State, vnode: VnodeDOM<Attrs, State>): any;
 		/** WORKAROUND: TypeScript 2.4 does not allow extending an interface with all-optional properties. */
@@ -230,7 +230,7 @@ declare namespace Mithril {
 		/** The onremove hook is called before a DOM element is removed from the document. */
 		onremove?(vnode: VnodeDOM<A, this>): any;
 		/** The onbeforeupdate hook is called before a vnode is diffed in a update. */
-		onbeforeupdate?(vnode: Vnode<A, this>, old: VnodeDOM<A, this>): boolean | void;
+		onbeforeupdate?(vnode: VnodeDOM<A, this>, old: VnodeDOM<A, this>): boolean | void;
 		/** The onupdate hook is called after a DOM element is updated, while attached to the document. */
 		onupdate?(vnode: VnodeDOM<A, this>): any;
 		/** Creates a view out of virtual elements. */
@@ -251,7 +251,7 @@ declare namespace Mithril {
 	type Comp<Attrs = {}, State extends Lifecycle<Attrs, State> = Lifecycle<Attrs, State>> = Component<Attrs, State> & State;
 
 	/** Components are a mechanism to encapsulate parts of a view to make code easier to organize and/or reuse. Components can be consumed via the m() utility. */
-	type ComponentTypes<A = {}, S extends Lifecycle<A, S> = Lifecycle<A, S>> = Component<A, S> | { new (vnode: CVnode<A>): ClassComponent<A> } | FactoryComponent<A>;
+	type ComponentTypes<A = {}, S extends Lifecycle<A, S> = Lifecycle<A, S>> = Component<A, S> | { new(vnode: CVnode<A>): ClassComponent<A> } | FactoryComponent<A>;
 
 	/** This represents the attributes available for configuring virtual elements, beyond the applicable DOM attributes. */
 	interface Attributes extends Lifecycle<any, any> {
