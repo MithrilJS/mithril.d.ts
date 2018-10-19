@@ -30,14 +30,35 @@ To use promises, you should add the `"es2015.promise"` library option to your co
 }
 ```
 
+### ES Module Interop
+
+In order to import Mithril's commonjs export in the form:
+
+```typescript
+import m from 'mithril';
+```
+
+you may need to set the `"esModuleInterop"` option in your `tsconfig.json`.
+
+```JSON
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    ...
+  }
+}
+```
+
+This setting may depend on the bundler you're using (Browserify, Webpack, Rollup, Parcel, etc.)
+
 ---
 
-### The Gist:
+## The Gist:
 
 #### POJO `Component` example using `vnode.state`:
 
 ```typescript
-import * as m from 'mithril';
+import m from 'mithril';
 
 export interface Attrs {
   name: string;
@@ -62,7 +83,7 @@ Note that all types can be accessed via `m` as above.
 #### POJO `Comp` example using `this` state:
 
 ```typescript
-import * as m from 'mithril';
+import m from 'mithril';
 
 export interface Attrs {
   name: string;
@@ -83,8 +104,7 @@ export default {
 #### `ClassComponent` example, importing types separately:
 
 ```typescript
-import * as m from 'mithril';
-import {ClassComponent, CVnode} from 'mithril';
+import m, {ClassComponent, CVnode} from 'mithril';
 
 export interface Attrs {
   name: string;
@@ -102,7 +122,7 @@ export default class MyComponent implements ClassComponent<Attrs> {
 #### `FactoryComponent` example:
 
 ```typescript
-import * as m from 'mithril';
+import m from 'mithril';
 
 export interface Attrs {
   name: string;
@@ -122,15 +142,17 @@ export default comp;
 #### `Stream` example:
 
 ```typescript
-import * as stream from 'mithril/stream';
-import {Stream} from 'mithril/stream';
+import stream, {Stream} from 'mithril/stream';
 
 const num = stream(1);
 const text = stream<string>();
 let s: Stream<Foo>;
 s = stream(new Foo());
 ```
----
+
+## JSX/TSX
+
+Library support is required for full TSX support and cannot be accomplished with types alone. See the NPM package [mithril-tsx-component](https://www.npmjs.com/package/mithril-tsx-component).
 
 ## Script/Global Usage
 
