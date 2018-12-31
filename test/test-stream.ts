@@ -134,6 +134,21 @@ import * as Stream from '../stream';
 }
 
 {
+	const s = Stream(2);
+	const doubled = Stream.lift(v => v * 2, s);
+	console.assert(doubled() === 4);
+}
+
+{
+	const s1 = Stream<number>();
+	const s2 = Stream<number>();
+	const added = Stream.lift((n1, n2) => n1 + n2, s1, s2);
+	s1(2);
+	s2(3);
+	console.assert(added() === 5);
+}
+
+{
 	const all = Stream.merge([
 		Stream(10),
 		Stream("20"),

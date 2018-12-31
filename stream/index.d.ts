@@ -27,6 +27,14 @@ declare interface Stream<T> {
 declare namespace Stream {
 	/** Creates a computed stream that reactively updates if any of its upstreams are updated. */
 	export function combine<T>(combiner: (...streams: any[]) => T, streams: Array<Stream<any>>): Stream<T>;
+	/** Combines the values of one or more streams into a single stream that is updated whenever one or more of the sources are updated */
+	export function lift<A, Z>(fn: (a: A) => Z, s: Stream<A>): Stream<Z>;
+	export function lift<A, B, Z>(fn: (a: A, b: B) => Z, sa: Stream<A>, sb: Stream<B>): Stream<Z>;
+	export function lift<A, B, C, Z>(fn: (a: A, b: B, c: C) => Z, sa: Stream<A>, sb: Stream<B>, sc: Stream<C>): Stream<Z>;
+	export function lift<A, B, C, D, Z>(fn: (a: A, b: B, c: C, d: D) => Z, sa: Stream<A>, sb: Stream<B>, sc: Stream<C>, sd: Stream<D>): Stream<Z>;
+	export function lift<A, B, C, D, E, Z>(fn: (a: A, b: B, c: C, d: D, e: E) => Z, sa: Stream<A>, sb: Stream<B>, sc: Stream<C>, sd: Stream<D>, se: Stream<E>): Stream<Z>;
+	export function lift<A, B, C, D, E, F, Z>(fn: (a: A, b: B, c: C, d: D, e: E, f: F) => Z, sa: Stream<A>, sb: Stream<B>, sc: Stream<C>, sd: Stream<D>, se: Stream<E>, sf: Stream<F>): Stream<Z>;
+	export function lift<T>(fn: (...values: any[]) => T, ...streams: Stream<any>[]): Stream<T>;
 	/** Creates a stream whose value is the array of values from an array of streams. */
 	export function merge(streams: Array<Stream<any>>): Stream<any[]>;
 	/** Creates a new stream with the results of calling the function on every incoming stream with and accumulator and the incoming value. */
