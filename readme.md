@@ -61,7 +61,7 @@ For **Rollup**, instead you should enable `"allowSyntheticDefaultImports"`:
   }
 }
 ```
-These setting may depend on the bundler you're using.
+These settings may depend on the bundler you're using.
 
 ---
 
