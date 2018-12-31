@@ -108,9 +108,19 @@ interface Attrs {
 
 function MyComp(): m.Component<Attrs> {
   let count = 0;
+  function increment() {
+    count++;
+  }
+  function decrement() {
+    count--;
+  }
   return {
     view ({attrs}) {
-      return m('span', `name: ${attrs.name}, count: ${count}`);
+      return m('.counter',
+        m('span', `name: ${attrs.name}, count: ${count}`),
+        m('button', {onclick: increment}, '+'),
+        m('button', {onclick: decrement}, '-')
+      );
     }
   }
 }
@@ -126,60 +136,21 @@ interface Attrs {
 }
 
 const MyComp: m.FactoryComponent<Attrs> = v => {
-  let initialValue = v.attrs.initialValue
-  let count = 0;
+  let count = v.attrs.initialValue
+  function increment() {
+    count++;
+  }
+  function decrement() {
+    count--;
+  }
   return {
     view ({attrs}) {
-      return m('span', `name: ${attrs.name}, count: ${count}`);
+      return m('.counter',
+        m('span', `name: ${attrs.name}, count: ${count}`),
+        m('button', {onclick: increment}, '+'),
+        m('button', {onclick: decrement}, '-')
+      );
     }
-  }
-};
-```
-
-#### Stateful POJO Component
-
-Another way to hold state is in `vnode.state`.
-
-```typescript
-import m from 'mithril';
-
-interface Attrs {
-  name: string;
-}
-
-interface State {
-  count: number;
-}
-
-const MyComp: m.Component<Attrs, State> = {
-  oninit (vnode) {
-    vnode.state.count = 0;
-  },
-  view (vnode) {
-    return m('span', `name: ${vnode.attrs.name}, count: ${vnode.state.count}`);
-  }
-};
-```
-
-#### POJO Comp type
-
-In a POJO component hook, `this` is a reference to `vnode.state`. To have `this` inferred correctly, use the `m.Comp` type:
-
-```typescript
-import m from 'mithril';
-
-interface Attrs {
-  name: string;
-}
-
-interface State {
-  count: number;
-}
-
-const MyComp: m.Comp<Attrs, State> = {
-  count: 0,
-  view ({attrs}) {
-    return m('span', `name: ${attrs.name}, count: ${this.count}`);
   }
 };
 ```
@@ -193,15 +164,102 @@ import m from 'mithril';
 
 export interface Attrs {
   name: string;
+  initialValue: number;
 }
 
 export default class MyComponent implements m.ClassComponent<Attrs> {
   count = 0;
   // Note that class methods cannot infer parameter types
+  constructor({attrs}: m.CVnode<Attrs>) {
+    this.count = attrs.initialValue;
+  }
+  increment() {
+    this.count++
+  }
+  decrement() {
+    this.count--
+  }
   view ({attrs}: m.CVnode<Attrs>) {
-    return m('span', `name: ${attrs.name}, count: ${this.count}`);
+    return m('.counter',
+      m('span', `name: ${attrs.name}, count: ${this.count}`),
+      m('button', {onclick: () => {this.increment()}}, '+'),
+      m('button', {onclick: () => {this.decrement()}}, '-')
+    );
   }
 }
+```
+
+#### Stateful POJO Component
+
+Another way to hold state is in `vnode.state`.
+
+```typescript
+import m from 'mithril';
+
+interface Attrs {
+  name: string;
+  initialValue: number
+}
+
+interface State {
+  count: number;
+  increment(): void;
+  decrement(): void;
+}
+
+const MyComp: m.Component<Attrs, State> = {
+  oninit ({state}) {
+    state.count = 0;
+    state.increment = () => {state.count++};
+    state.decrement = () => {state.count--};
+  },
+  view ({attrs, state}) {
+    return m('.counter',
+      m('span', `name: ${attrs.name}, count: ${state.count}`),
+      m('button', {onclick: state.increment}, '+'),
+      m('button', {onclick: state.decrement}, '-')
+    );
+  }
+};
+```
+
+#### POJO Comp type
+
+In a POJO component hook, `this` is a reference to `vnode.state`. To have `this` inferred correctly, use the `m.Comp` type.
+
+```typescript
+import m from 'mithril';
+
+interface Attrs {
+  name: string;
+  initialValue: number
+}
+
+interface State {
+  count: number;
+  increment(): void;
+  decrement(): void;
+}
+
+const MyComp: m.Comp<Attrs, State> = {
+  count: 0,
+  increment() {
+    this.count++
+  },
+  decrement() {
+    this.count--
+  },
+  oninit ({attrs}) {
+    this.count = attrs.initialValue;
+  },
+  view ({attrs}) {
+    return m('.counter',
+      m('span', `name: ${attrs.name}, count: ${this.count}`),
+      m('button', {onclick: () => {this.increment()}}, '+'),
+      m('button', {onclick: () => {this.decrement()}}, '-')
+    );
+  }
+};
 ```
 
 #### Plain view functions
