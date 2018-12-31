@@ -76,7 +76,7 @@ import m from 'mithril';
 
 interface Attrs {
   name: string;
-  count: number
+  count: number;
 }
 
 const MyComp: m.Component<Attrs> = {
@@ -97,7 +97,7 @@ const MyComp: m.Component<Attrs> = {
 ```
 #### FactoryComponent (AKA Closure Component)
 
-The simpliest way to annotate a stateful component and the best way to benefit from inference is by holding state in a closure:
+The easiest way to annotate a stateful component and to make best use of inference is by holding state in a closure:
 
 ```typescript
 import m from 'mithril';
@@ -106,7 +106,7 @@ interface Attrs {
   name: string;
 }
 
-function MyComp(): m.Component<Attrs> {
+function Counter(): m.Component<Attrs> {
   let count = 0;
   function increment() {
     count++;
@@ -122,7 +122,7 @@ function MyComp(): m.Component<Attrs> {
         m('button', {onclick: decrement}, '-')
       );
     }
-  }
+  };
 }
 ```
 In the above example, local state types can usually be inferred at declaration time and you don't need to worry about how `this` may be bound since you never need to write `this`.
@@ -135,7 +135,7 @@ interface Attrs {
   initialValue: number;
 }
 
-const MyComp: m.FactoryComponent<Attrs> = v => {
+const Counter: m.FactoryComponent<Attrs> = v => {
   let count = v.attrs.initialValue
   function increment() {
     count++;
@@ -151,7 +151,7 @@ const MyComp: m.FactoryComponent<Attrs> = v => {
         m('button', {onclick: decrement}, '-')
       );
     }
-  }
+  };
 };
 ```
 
@@ -167,23 +167,24 @@ interface Attrs {
   initialValue: number;
 }
 
-class MyComponent implements m.ClassComponent<Attrs> {
+class Counter implements m.ClassComponent<Attrs> {
   count = 0;
   // Note that class methods cannot infer parameter types
   constructor({attrs}: m.CVnode<Attrs>) {
     this.count = attrs.initialValue;
   }
-  increment() {
-    this.count++
+  // Use arrow functions so `this` is bound as expected
+  increment = () => {
+    this.count++;
   }
-  decrement() {
-    this.count--
+  decrement = () => {
+    this.count--;
   }
   view ({attrs}: m.CVnode<Attrs>) {
     return m('.counter',
       m('span', `name: ${attrs.name}, count: ${this.count}`),
-      m('button', {onclick: () => {this.increment()}}, '+'),
-      m('button', {onclick: () => {this.decrement()}}, '-')
+      m('button', {onclick: this.increment}, '+'),
+      m('button', {onclick: this.decrement}, '-')
     );
   }
 }
@@ -198,7 +199,7 @@ import m from 'mithril';
 
 interface Attrs {
   name: string;
-  initialValue: number
+  initialValue: number;
 }
 
 interface State {
@@ -207,7 +208,7 @@ interface State {
   decrement(): void;
 }
 
-const MyComp: m.Component<Attrs, State> = {
+const Counter: m.Component<Attrs, State> = {
   oninit ({state}) {
     state.count = 0;
     state.increment = () => {state.count++};
@@ -232,7 +233,7 @@ import m from 'mithril';
 
 interface Attrs {
   name: string;
-  initialValue: number
+  initialValue: number;
 }
 
 interface State {
@@ -241,13 +242,13 @@ interface State {
   decrement(): void;
 }
 
-const MyComp: m.Comp<Attrs, State> = {
+const Counter: m.Comp<Attrs, State> = {
   count: 0,
   increment() {
-    this.count++
+    this.count++;
   },
   decrement() {
-    this.count--
+    this.count--;
   },
   oninit ({attrs}) {
     this.count = attrs.initialValue;
@@ -264,11 +265,11 @@ const MyComp: m.Comp<Attrs, State> = {
 
 #### Plain view functions
 
-Sometimes you can just as easily use functions in place of components. Usually the return type will be inferred, or you can annotate one if you prefer:
+Sometimes you can just as easily use functions in place of components. Usually the return type will be inferred as being compatible with `m.Children`, or you can annotate it specifically if you prefer:
 
 ```typescript
 function titleView(title: string): m.Children {
-  return m('h1', title)
+  return m('h1', title);
 }
 ```
 
