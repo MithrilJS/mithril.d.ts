@@ -104,6 +104,7 @@ import m from 'mithril';
 
 interface Attrs {
   name: string;
+  initialValue: number;
 }
 
 function Counter(): m.Component<Attrs> {
@@ -115,6 +116,9 @@ function Counter(): m.Component<Attrs> {
     count--;
   }
   return {
+    oninit ({attrs}) {
+      count = attrs.initialValue;
+    },
     view ({attrs}) {
       return m('.counter',
         m('span', `name: ${attrs.name}, count: ${count}`),
@@ -135,8 +139,8 @@ interface Attrs {
   initialValue: number;
 }
 
-const Counter: m.FactoryComponent<Attrs> = v => {
-  let count = v.attrs.initialValue
+const Counter: m.FactoryComponent<Attrs> = vnode => {
+  let count = vnode.attrs.initialValue
   function increment() {
     count++;
   }
