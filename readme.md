@@ -1,8 +1,10 @@
-# Typescript Definitions for [Mithril 1.1](https://github.com/lhorie/mithril.js)
+# Typescript Definitions for [Mithril 1.x](https://github.com/lhorie/mithril.js)
 
-Requires TypeScript 2.x.
+Types are maintained at [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped). Submit PRs there but you can submit issues here.
 
 ## Install
+
+Requires TypeScript 2.x or later.
 
 Install from npm with:
 
@@ -49,86 +51,82 @@ you may need to set the `"esModuleInterop"` option in your `tsconfig.json`.
 }
 ```
 
-This setting may depend on the bundler you're using (Browserify, Webpack, Rollup, Parcel, etc.)
+For **Rollup**, instead you should enable `"allowSyntheticDefaultImports"`:
+
+```JSON
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    ...
+  }
+}
+```
+These setting may depend on the bundler you're using.
 
 ---
 
 ## The Gist:
 
-#### POJO `Component` example using `vnode.state`:
+### Component examples
+
+#### Simple, stateless POJO Component with attrs types
 
 ```typescript
 import m from 'mithril';
 
-export interface Attrs {
+interface Attrs {
   name: string;
+  count: number
 }
 
-interface State {
-  count: number;
-}
-
-export default {
-  oninit (vnode) {
-    vnode.state.count = 0;
-  },
+const MyComp: m.Component<Attrs> = {
   view (vnode) {
-    return m('span', `name: ${vnode.attrs.name}, count: ${vnode.state.count}`);
+    return m('span', `name: ${vnode.attrs.name}, count: ${vnode.attrs.count}`);
   }
-} as m.Component<Attrs,State>;
+};
 ```
 
-Note that all types can be accessed via `m` as above.
+If you prefer the convenience of destructuring, you could rewrite `MyComp` like:
 
-#### POJO `Comp` example using `this` state:
+```typescript
+const MyComp: m.Component<Attrs> = {
+  view ({attrs: {name, count}}) {
+    return m('span', `name: ${name}, count: ${count}`);
+  }
+};
+```
+#### FactoryComponent (AKA Closure Component)
+
+The simpliest way to annotate a stateful component and the best way to benefit from inference is by holding state in a closure:
 
 ```typescript
 import m from 'mithril';
 
-export interface Attrs {
+interface Attrs {
   name: string;
 }
 
-interface State {
-  count: number;
-}
-
-export default {
-  count: 0,
-  view ({attrs}) {
-    return m('span', `name: ${attrs.name}, count: ${this.count}`);
-  }
-} as m.Comp<Attrs,State>;
-```
-
-#### `ClassComponent` example, importing types separately:
-
-```typescript
-import m, {ClassComponent, CVnode} from 'mithril';
-
-export interface Attrs {
-  name: string;
-}
-
-export default class MyComponent implements ClassComponent<Attrs> {
-  count = 0;
-  // Note that class methods cannot infer parameter types
-  view ({attrs}: CVnode<Attrs>) {
-    return m('span', `name: ${attrs.name}, count: ${this.count}`);
+function MyComp(): m.Component<Attrs> {
+  let count = 0;
+  return {
+    view ({attrs}) {
+      return m('span', `name: ${attrs.name}, count: ${count}`);
+    }
   }
 }
 ```
+In the above example, local state types can usually be inferred at declaration time and you don't need to worry about how `this` may be bound since you never need to write `this`.
 
-#### `FactoryComponent` example:
+In the following example, we want to use the initial `Vnode`. Here we annotate the whole function rather than just its return type, and the initial vnode type is inferred.
 
 ```typescript
-import m from 'mithril';
-
-export interface Attrs {
+interface Attrs {
+  initialValue: number;
   name: string;
 }
 
-const comp: m.FactoryComponent<Attrs> = function() {
+const MyComp: m.FactoryComponent<Attrs> = v => {
+  let initialValue = v.attrs.initialValue
   let count = 0;
   return {
     view ({attrs}) {
@@ -136,10 +134,87 @@ const comp: m.FactoryComponent<Attrs> = function() {
     }
   }
 };
-export default comp;
 ```
 
-#### `Stream` example:
+#### Stateful POJO Component
+
+Another way to hold state is in `vnode.state`.
+
+```typescript
+import m from 'mithril';
+
+interface Attrs {
+  name: string;
+}
+
+interface State {
+  count: number;
+}
+
+const MyComp: m.Component<Attrs, State> = {
+  oninit (vnode) {
+    vnode.state.count = 0;
+  },
+  view (vnode) {
+    return m('span', `name: ${vnode.attrs.name}, count: ${vnode.state.count}`);
+  }
+};
+```
+
+#### POJO Comp type
+
+In a POJO component hook, `this` is a reference to `vnode.state`. To have `this` inferred correctly, use the `m.Comp` type:
+
+```typescript
+import m from 'mithril';
+
+interface Attrs {
+  name: string;
+}
+
+interface State {
+  count: number;
+}
+
+const MyComp: m.Comp<Attrs, State> = {
+  count: 0,
+  view ({attrs}) {
+    return m('span', `name: ${attrs.name}, count: ${this.count}`);
+  }
+};
+```
+
+#### ClassComponent
+
+Note that Typescript cannot infer types for class methods. When using classes you must annotate the incoming `Vnode` type for component hook methods.
+
+```typescript
+import m from 'mithril';
+
+export interface Attrs {
+  name: string;
+}
+
+export default class MyComponent implements m.ClassComponent<Attrs> {
+  count = 0;
+  // Note that class methods cannot infer parameter types
+  view ({attrs}: m.CVnode<Attrs>) {
+    return m('span', `name: ${attrs.name}, count: ${this.count}`);
+  }
+}
+```
+
+#### Plain view functions
+
+Sometimes you can just as easily use functions in place of components. Usually the return type will be inferred, or you can annotate one if you prefer:
+
+```typescript
+function titleView(title: string): m.Children {
+  return m('h1', title)
+}
+```
+
+### `Stream` example:
 
 ```typescript
 import stream, {Stream} from 'mithril/stream';
