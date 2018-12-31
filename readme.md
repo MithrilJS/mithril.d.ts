@@ -214,7 +214,7 @@ function titleView(title: string): m.Children {
 }
 ```
 
-### `Stream` example:
+### Stream example:
 
 ```typescript
 import stream, {Stream} from 'mithril/stream';
