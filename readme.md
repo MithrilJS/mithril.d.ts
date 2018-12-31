@@ -131,8 +131,8 @@ In the following example, we want to use the initial `Vnode`. Here we annotate t
 
 ```typescript
 interface Attrs {
-  initialValue: number;
   name: string;
+  initialValue: number;
 }
 
 const MyComp: m.FactoryComponent<Attrs> = v => {
