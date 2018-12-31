@@ -169,17 +169,18 @@ interface Attrs {
 
 class Counter implements m.ClassComponent<Attrs> {
   count = 0;
-  // Note that class methods cannot infer parameter types
-  constructor({attrs}: m.CVnode<Attrs>) {
-    this.count = attrs.initialValue;
-  }
   // Use arrow functions so `this` is bound as expected
   increment = () => {
     this.count++;
-  }
+  };
   decrement = () => {
     this.count--;
+  };
+  // The constructor can be used in place of oninit
+  constructor({attrs}: m.CVnode<Attrs>) {
+    this.count = attrs.initialValue;
   }
+  // Note that class methods cannot infer parameter types
   view ({attrs}: m.CVnode<Attrs>) {
     return m('.counter',
       m('span', `name: ${attrs.name}, count: ${this.count}`),
