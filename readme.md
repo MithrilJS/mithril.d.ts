@@ -162,12 +162,12 @@ Note that Typescript cannot infer types for class methods. When using classes yo
 ```typescript
 import m from 'mithril';
 
-export interface Attrs {
+interface Attrs {
   name: string;
   initialValue: number;
 }
 
-export default class MyComponent implements m.ClassComponent<Attrs> {
+class MyComponent implements m.ClassComponent<Attrs> {
   count = 0;
   // Note that class methods cannot infer parameter types
   constructor({attrs}: m.CVnode<Attrs>) {
