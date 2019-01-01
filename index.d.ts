@@ -244,6 +244,9 @@ declare namespace Mithril {
 	 */
 	type FactoryComponent<A = {}> = (vnode: Vnode<A, {}>) => Component<A, {}>;
 
+	/** Alias for FactoryComponent */
+	type ClosureComponent<A = {}> = FactoryComponent<A>;
+
 	/**
 	 * Components are a mechanism to encapsulate parts of a view to make code easier to organize and/or reuse.
 	 * Any Javascript object that has a view method is a Mithril component. Components can be consumed via the m() utility.
