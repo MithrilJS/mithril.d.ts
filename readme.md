@@ -95,7 +95,7 @@ const MyComp: m.Component<Attrs> = {
   }
 };
 ```
-#### FactoryComponent (AKA Closure Component)
+#### ClosureComponent (AKA FactoryComponent)
 
 The easiest way to annotate a stateful component and to make best use of inference is by holding state in a closure:
 
@@ -139,7 +139,7 @@ interface Attrs {
   initialValue: number;
 }
 
-const Counter: m.FactoryComponent<Attrs> = vnode => {
+const Counter: m.ClosureComponent<Attrs> = vnode => {
   let count = vnode.attrs.initialValue
   function increment() {
     count++;
