@@ -43,8 +43,8 @@ declare namespace Stream {
 	export function scanMerge<T, U>(pairs: Array<[Stream<T>, (acc: U, value: T) => U]>, acc: U): Stream<U>;
 	/** Takes an array of pairs of streams and scan functions and merges all those streams using the given functions into a single stream. */
 	export function scanMerge<U>(pairs: Array<[Stream<any>, (acc: U, value: any) => U]>, acc: U): Stream<U>;
-	/** A special value that can be returned to stream callbacks to halt execution of downstreams. */
-	export const HALT: any;
+	/** A special value that can be returned to stream callbacks to skip execution of downstreams. */
+	export const SKIP: any;
 }
 
 export = Stream;
