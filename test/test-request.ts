@@ -15,6 +15,14 @@ request<{a: string}>("/item", {method: "POST"}).then(result => {
 request<any>({
 	method: "GET",
 	url: "/item",
+	params: {x: "y"}
+}).then(result => {
+	console.log(result);
+});
+
+request<any>({
+	method: "GET",
+	url: "/item",
 	body: {x: "y"}
 }).then(result => {
 	console.log(result);

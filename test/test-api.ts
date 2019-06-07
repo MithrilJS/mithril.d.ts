@@ -407,7 +407,7 @@ const FRAME_BUDGET = 100;
 {
 	m.jsonp({
 		url: "/api/v1/users/:id",
-		body: { id: 1 },
+		params: { id: 1 },
 		callbackKey: "callback",
 	})
 	.then(result => {
