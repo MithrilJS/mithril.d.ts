@@ -4,9 +4,6 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 2.3
 
-/** Manually triggers a redraw of mounted components. */
-declare function redraw(): void;
-
 /** Renders a vnode structure into a DOM element. */
 declare function render(el: Element, vnodes: Mithril.Children): void;
 
@@ -151,12 +148,19 @@ declare namespace Mithril {
 		background?: boolean;
 	}
 
+	interface Redraw {
+		/** Manually triggers an asynchronous redraw of mounted components. */
+		(): void;
+		/** Manually triggers a synchronous redraw of mounted components. */
+		sync(): void;
+	}
+
 	interface Static extends Hyperscript {
 		route: Route;
 		mount: typeof mount;
 		withAttr: typeof withAttr;
 		render: typeof render;
-		redraw: typeof redraw;
+		redraw: Redraw;
 		request: typeof request;
 		jsonp: typeof jsonp;
 		/** Returns an object with key/value pairs parsed from a string of the form: ?a=1&b=2 */
