@@ -107,7 +107,7 @@ declare namespace Mithril {
 		/** The HTTP method to use. */
 		method?: string;
 		/** The data to be interpolated into the URL and serialized into the querystring (for GET requests) or body (for other types of requests). */
-		data?: any;
+		body?: any;
 		/** Whether the request should be asynchronous. Defaults to true. */
 		async?: boolean;
 		/** A username for HTTP authorization. */
@@ -140,7 +140,7 @@ declare namespace Mithril {
 
 	interface JsonpOptions {
 		/** The data to be interpolated into the URL and serialized into the querystring. */
-		data?: any;
+		body?: any;
 		/** A constructor to be applied to each object in the response. */
 		type?: new (o: any) => any;
 		/** The name of the function that will be called as the callback. */

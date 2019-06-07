@@ -346,7 +346,7 @@ const FRAME_BUDGET = 100;
 		m.request({
 			method: "POST",
 			url: "/api/v1/upload",
-			data,
+			body: data,
 			config: xhr => {
 				xhr.addEventListener("progress", e => {
 					progress = e.loaded / e.total;
@@ -407,7 +407,7 @@ const FRAME_BUDGET = 100;
 {
 	m.jsonp({
 		url: "/api/v1/users/:id",
-		data: { id: 1 },
+		body: { id: 1 },
 		callbackKey: "callback",
 	})
 	.then(result => {
@@ -459,11 +459,11 @@ const FRAME_BUDGET = 100;
 ////////////////////////////////////////////////////////////////////////////////
 
 {
-	const halted = Stream(1).map(value => {
-		return Stream.HALT;
+	const skipped = Stream(1).map(value => {
+		return Stream.SKIP;
 	});
 
-	halted.map(() => {
+	skipped.map(() => {
 		// never runs
 	});
 }
