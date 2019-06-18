@@ -34,6 +34,15 @@ const FRAME_BUDGET = 100;
 }
 
 {
+	const {params, path} = m.parsePathname('/api/user/1');
+	console.assert(params != null);
+	console.assert(typeof path === 'string');
+
+	const url = m.buildPathname('/api/user/:id', {id: 1});
+	console.assert(url.endsWith('/1'));
+}
+
+{
 	const root = window.document.createElement("div");
 	m.render(root, m("div"));
 	console.assert(root.childNodes.length === 1);

@@ -135,6 +135,8 @@ declare namespace Mithril {
 		useBody?: boolean;
 		/** If false, redraws mounted components upon completion of the request. If true, it does not. */
 		background?: boolean;
+		/** Milliseconds a request can take before automatically being terminated. */
+		timeout?: number;
 	}
 
 	interface JsonpOptions {
@@ -169,6 +171,10 @@ declare namespace Mithril {
 		parseQueryString(queryString: string): { [p: string]: any };
 		/** Turns the key/value pairs of an object into a string of the form: a=1&b=2 */
 		buildQueryString(values: { [p: string]: any }): string;
+		/** Parse path name */
+		parsePathname(url: string): { path: string, params: { [p: string]: any } };
+		/** Build path name */
+		buildPathname(template: string, params?: { [p: string]: any }): string;
 		/** A string containing the semver value for the current Mithril release. */
 		version: string;
 	}
