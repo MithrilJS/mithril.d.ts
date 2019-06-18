@@ -1,6 +1,6 @@
-# Typescript Definitions for [Mithril 1.x](https://github.com/lhorie/mithril.js)
+# Typescript Definitions for [Mithril.js](https://github.com/lhorie/mithril.js)
 
-Types are maintained at [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped). Submit PRs there but you can submit issues here.
+Types are maintained at [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped). Submit PRs there but you can submit issues, questions or suggestions here.
 
 ## Install
 
