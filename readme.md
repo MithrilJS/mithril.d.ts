@@ -10,6 +10,12 @@ Install from npm with:
 
     npm install -D @types/mithril
 
+For pre-release versions of Mithril, the `next` branch on this repo will align with the `next` branch of Mithril. You can install these types with:
+
+    npm install -D MithrilJS/mithril.d.ts#next
+
+It's not recommended to install any other branches, including master, from this repo. Use npm/DefinitelyTyped for official releases.
+
 ### Promise support in ES5
 
 Please note that while Mithril polyfills Promise support, this type definition does not include a type declaration for Promises. You may see an error like:
