@@ -9,8 +9,6 @@ const FRAME_BUDGET = 100;
 {
 	const vnode = m("div");
 	console.assert(vnode.tag === "div");
-	console.assert(typeof m.version === "string");
-	console.assert(m.version.indexOf(".") > -1);
 }
 
 {

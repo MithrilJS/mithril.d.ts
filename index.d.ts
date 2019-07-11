@@ -175,8 +175,6 @@ declare namespace Mithril {
 		parsePathname(url: string): { path: string, params: { [p: string]: any } };
 		/** Build path name */
 		buildPathname(template: string, params?: { [p: string]: any }): string;
-		/** A string containing the semver value for the current Mithril release. */
-		version: string;
 	}
 
 	// Vnode children types

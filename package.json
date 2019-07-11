@@ -1,6 +1,6 @@
 {
   "name": "@types/mithril",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Typescript Definitions for Mithril 2.0",
   "scripts": {
     "test": "tsc",
@@ -30,8 +30,8 @@
   },
   "homepage": "https://github.com/spacejack/mithril.d.ts#readme",
   "devDependencies": {
-    "tslint": "^5.17.0",
-    "typescript": "^3.5.2",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3",
     "dtslint": "Microsoft/dtslint#production"
   }
 }
