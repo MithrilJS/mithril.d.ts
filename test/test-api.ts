@@ -443,7 +443,7 @@ const FRAME_BUDGET = 100;
 {
 	const firstName = stream("John");
 	const lastName = stream("Doe");
-	const fullName = stream.merge([firstName, lastName]).map(values => {
+	const fullName = stream.merge([firstName, lastName]).map((values: string[]) => {
 		return values.join(" ");
 	});
 
