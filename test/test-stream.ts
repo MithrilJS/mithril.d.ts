@@ -218,6 +218,13 @@ import * as Stream from '../stream';
 	console.assert(doubled() === 4);
 }
 
+{
+    const s = Stream("a");
+    const t = s.map(() => 1);
+    const n = t() + 1;
+    console.assert(n === 2);
+}
+
 // scan
 
 {
