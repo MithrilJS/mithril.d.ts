@@ -1,12 +1,12 @@
 # Typescript Definitions for [Mithril 2.x](https://github.com/lhorie/mithril.js)
 
-Types are maintained at [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped). Submit PRs there but you can submit issues here.
+Types are maintained at [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped). Submit PRs there but you can submit issues, questions or suggestions here.
 
 ## Install
 
 Requires TypeScript 3.2 or later.
 
-Install from npm with:
+Install types for the current version of Mithril from npm with:
 
     npm install -D @types/mithril
 

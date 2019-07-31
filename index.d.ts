@@ -82,6 +82,12 @@ declare namespace Mithril {
 		title?: string;
 	}
 
+	interface RouteLinkAttrs extends Attributes {
+		href: string
+		selector?: string | ComponentTypes<any>
+		options?: RouteOptions
+	}
+
 	interface Route {
 		/** Creates application routes and mounts Components and/or RouteResolvers to a DOM element. */
 		(element: Element, defaultRoute: string, routes: RouteDefs): void;
@@ -90,10 +96,9 @@ declare namespace Mithril {
 		/** Redirects to a matching route or to the default route if no matching routes can be found. */
 		set(route: string, data?: any, options?: RouteOptions): void;
 		/** Defines a router prefix which is a fragment of the URL that dictates the underlying strategy used by the router. */
-		prefix(urlFragment: string): void;
-		/** This method is meant to be used in conjunction with an <a> Vnode's oncreate/onupdate hooks. */
-        link(vnode: Vnode<any, any>): (e?: Event) => any;
-        link(options: RouteOptions): (vnode: Vnode<any, any>) => (e?: Event) => any;
+		prefix: string;
+		/** This Component renders a link <a href> that will use the current routing strategy */
+        Link: Component<RouteLinkAttrs>;
 		/** Returns the named parameter value from the current route. */
 		param(name: string): string;
 		/** Gets all route parameters. */
@@ -135,6 +140,8 @@ declare namespace Mithril {
 		useBody?: boolean;
 		/** If false, redraws mounted components upon completion of the request. If true, it does not. */
 		background?: boolean;
+		/** Milliseconds a request can take before automatically being terminated. */
+		timeout?: number;
 	}
 
 	interface JsonpOptions {
@@ -169,8 +176,10 @@ declare namespace Mithril {
 		parseQueryString(queryString: string): { [p: string]: any };
 		/** Turns the key/value pairs of an object into a string of the form: a=1&b=2 */
 		buildQueryString(values: { [p: string]: any }): string;
-		/** A string containing the semver value for the current Mithril release. */
-		version: string;
+		/** Parse path name */
+		parsePathname(url: string): { path: string, params: { [p: string]: any } };
+		/** Build path name */
+		buildPathname(template: string, params?: { [p: string]: any }): string;
 	}
 
 	// Vnode children types

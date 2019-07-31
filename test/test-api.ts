@@ -9,8 +9,6 @@ const FRAME_BUDGET = 100;
 {
 	const vnode = m("div");
 	console.assert(vnode.tag === "div");
-	console.assert(typeof m.version === "string");
-	console.assert(m.version.indexOf(".") > -1);
 }
 
 {
@@ -31,6 +29,15 @@ const FRAME_BUDGET = 100;
 {
 	const params = m.parseQueryString("?a=1&b=2");
 	const query = m.buildQueryString({a: 1, b: 2});
+}
+
+{
+	const {params, path} = m.parsePathname('/api/user/1');
+	console.assert(params != null);
+	console.assert(typeof path === 'string');
+
+	const url = m.buildPathname('/api/user/:id', {id: 1});
+	console.assert(url.endsWith('/1'));
 }
 
 {
@@ -60,7 +67,7 @@ const FRAME_BUDGET = 100;
 
 {
 	const root = window.document.createElement("div");
-	m.route.prefix("#");
+	m.route.prefix = "#";
 	m.route(root, "/a", {
 		"/a": { view: () => m("div") }
 	});
@@ -701,9 +708,12 @@ const FRAME_BUDGET = 100;
 						state.remaining === 1 ? " item left" : " items left",
 					]),
 					m("ul#filters", [
-						m("li", m("a[href='/']", {oncreate: m.route.link, class: state.showing === "" ? "selected" : ""}, "All")),
-						m("li", m("a[href='/active']", {oncreate: m.route.link, class: state.showing === "active" ? "selected" : ""}, "Active")),
-						m("li", m("a[href='/completed']", {oncreate: m.route.link, class: state.showing === "completed" ? "selected" : ""}, "Completed")),
+						// m("li", m("a[href='/']", {oncreate: m.route.link, class: state.showing === "" ? "selected" : ""}, "All")),
+						// m("li", m("a[href='/active']", {oncreate: m.route.link, class: state.showing === "active" ? "selected" : ""}, "Active")),
+						// m("li", m("a[href='/completed']", {oncreate: m.route.link, class: state.showing === "completed" ? "selected" : ""}, "Completed")),
+						m(m.route.Link, {href: "/"}, "All"),
+						m(m.route.Link, {href: "/active"}, "Active"),
+						m(m.route.Link, {href: "/completed"}, "Completed")
 					]),
 					m("button#clear-completed", { onclick: () => { state.dispatch("clear"); } }, "Clear completed"),
 				]) : null,
