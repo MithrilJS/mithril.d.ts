@@ -2,7 +2,7 @@
 // Not intended to be run; only to compile & check types.
 
 import * as m from '..';
-import * as stream from '../stream';
+import * as Stream from '../stream';
 
 const FRAME_BUDGET = 100;
 
@@ -346,7 +346,7 @@ const FRAME_BUDGET = 100;
 		m.request({
 			method: "POST",
 			url: "/api/v1/upload",
-			data,
+			body: data,
 			config: xhr => {
 				xhr.addEventListener("progress", e => {
 					progress = e.loaded / e.total;
@@ -407,7 +407,7 @@ const FRAME_BUDGET = 100;
 {
 	m.jsonp({
 		url: "/api/v1/users/:id",
-		data: { id: 1 },
+		params: { id: 1 },
 		callbackKey: "callback",
 	})
 	.then(result => {
@@ -441,9 +441,9 @@ const FRAME_BUDGET = 100;
 ////////////////////////////////////////////////////////////////////////////////
 
 {
-	const firstName = stream("John");
-	const lastName = stream("Doe");
-	const fullName = stream.merge([firstName, lastName]).map((values: string[]) => {
+	const firstName = Stream("John");
+	const lastName = Stream("Doe");
+	const fullName = Stream.merge([firstName, lastName]).map(values => {
 		return values.join(" ");
 	});
 
@@ -459,11 +459,11 @@ const FRAME_BUDGET = 100;
 ////////////////////////////////////////////////////////////////////////////////
 
 {
-	const halted = stream(1).map(value => {
-		return stream.HALT;
+	const skipped = Stream(1).map(value => {
+		return Stream.SKIP;
 	});
 
-	halted.map(() => {
+	skipped.map(() => {
 		// never runs
 	});
 }
@@ -473,10 +473,10 @@ const FRAME_BUDGET = 100;
 ////////////////////////////////////////////////////////////////////////////////
 
 {
-	const a = stream(5);
-	const b = stream(7);
+	const a = Stream(5);
+	const b = Stream(7);
 
-	const added = stream.combine((a: stream.Stream<number>, b: stream.Stream<number>) => {
+	const added = Stream.combine((a: Stream<number>, b: Stream<number>) => {
 		return a() + b();
 	}, [a, b]);
 
@@ -488,7 +488,7 @@ const FRAME_BUDGET = 100;
 ////////////////////////////////////////////////////////////////////////////////
 
 {
-	const value = stream<number>();
+	const value = Stream<number>();
 	const doubled = value.map(value => value * 2);
 
 	value.end(true); // set to ended state

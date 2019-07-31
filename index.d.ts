@@ -4,9 +4,6 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 2.3
 
-/** Manually triggers a redraw of mounted components. */
-declare function redraw(): void;
-
 /** Renders a vnode structure into a DOM element. */
 declare function render(el: Element, vnodes: Mithril.Children): void;
 
@@ -106,8 +103,10 @@ declare namespace Mithril {
 	interface RequestOptions<T> {
 		/** The HTTP method to use. */
 		method?: string;
-		/** The data to be interpolated into the URL and serialized into the querystring (for GET requests) or body (for other types of requests). */
-		data?: any;
+		/** The data to be interpolated into the URL and serialized into the querystring. */
+		params?: { [key: string]: any };
+		/** The data to be serialized into the request body. */
+		body?: any;
 		/** Whether the request should be asynchronous. Defaults to true. */
 		async?: boolean;
 		/** A username for HTTP authorization. */
@@ -140,7 +139,7 @@ declare namespace Mithril {
 
 	interface JsonpOptions {
 		/** The data to be interpolated into the URL and serialized into the querystring. */
-		data?: any;
+		params?: { [id: string]: any };
 		/** A constructor to be applied to each object in the response. */
 		type?: new (o: any) => any;
 		/** The name of the function that will be called as the callback. */
@@ -151,12 +150,19 @@ declare namespace Mithril {
 		background?: boolean;
 	}
 
+	interface Redraw {
+		/** Manually triggers an asynchronous redraw of mounted components. */
+		(): void;
+		/** Manually triggers a synchronous redraw of mounted components. */
+		sync(): void;
+	}
+
 	interface Static extends Hyperscript {
 		route: Route;
 		mount: typeof mount;
 		withAttr: typeof withAttr;
 		render: typeof render;
-		redraw: typeof redraw;
+		redraw: Redraw;
 		request: typeof request;
 		jsonp: typeof jsonp;
 		/** Returns an object with key/value pairs parsed from a string of the form: ?a=1&b=2 */

@@ -19,5 +19,7 @@ render(document.body, [
 
 redraw();
 
+redraw.sync();
+
 const handler = withAttr("value", (value) => {});
 handler({currentTarget: {value: 10}});
