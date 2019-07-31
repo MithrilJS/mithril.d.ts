@@ -1,10 +1,10 @@
-# Typescript Definitions for [Mithril 1.x](https://github.com/lhorie/mithril.js)
+# Typescript Definitions for [Mithril 2.x](https://github.com/lhorie/mithril.js)
 
 Types are maintained at [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped). Submit PRs there but you can submit issues here.
 
 ## Install
 
-Requires TypeScript 2.x or later.
+Requires TypeScript 3.2 or later.
 
 Install from npm with:
 
@@ -287,12 +287,12 @@ function titleView(title: string): m.Children {
 ### Stream example:
 
 ```typescript
-import stream, {Stream} from 'mithril/stream';
+import Stream from 'mithril/stream';
 
-const num = stream(1);
-const text = stream<string>();
+const num = Stream(1);
+const text = Stream<string>();
 let s: Stream<Foo>;
-s = stream(new Foo());
+s = Stream(new Foo());
 ```
 
 ## JSX/TSX
