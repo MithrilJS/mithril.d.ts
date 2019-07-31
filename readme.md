@@ -4,7 +4,7 @@ Types are maintained at [DefinitelyTyped](https://github.com/DefinitelyTyped/Def
 
 ## Install
 
-Requires TypeScript 2.x or later.
+Requires TypeScript 2.3 or later.
 
 Install from npm with:
 
