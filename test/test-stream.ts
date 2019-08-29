@@ -26,7 +26,7 @@ import * as Stream from '../stream';
 }
 
 {
-	const s = Stream();
+	const s = Stream<number>();
 	const doubled = Stream.combine(s => s() * 2, [s]);
 	s(2);
 	console.assert(doubled() === 4);
@@ -56,7 +56,7 @@ import * as Stream from '../stream';
 
 {
 	const s1 = Stream(2);
-	const s2 = Stream();
+	const s2 = Stream<number>();
 	const added = Stream.combine((s1, s2) => s1() + s2(), [s1, s2]);
 	s2(3);
 	console.assert(added() === 5);
@@ -64,7 +64,7 @@ import * as Stream from '../stream';
 
 {
 	let count = 0;
-	const a = Stream();
+	const a = Stream<number>();
 	const b = Stream.combine(a => a() * 2, [a]);
 	const c = Stream.combine(a => a() * a(), [a]);
 	const d = Stream.combine((b, c) => {
@@ -90,11 +90,11 @@ import * as Stream from '../stream';
 }
 
 {
-	let streams: Array<Stream<any>> = [];
-	const a = Stream();
-	const b = Stream();
-	const c = Stream.combine((a, b, changed) => {
-		streams = changed;
+	let streams: Array<Stream<number>> = [];
+	const a = Stream<number>();
+	const b = Stream<number>();
+	const c = Stream.combine((a, b) => {
+		streams = [a, b];
 	}, [a, b]);
 	a(3);
 	b(5);
@@ -140,6 +140,13 @@ import * as Stream from '../stream';
 }
 
 {
+	const a = Stream(1);
+	const b = Stream("x");
+	const concated = Stream.lift((num, str) => str + num, a, b);
+	console.assert(concated() === "x1");
+}
+
+{
 	const s1 = Stream<number>();
 	const s2 = Stream<number>();
 	const added = Stream.lift((n1, n2) => n1 + n2, s1, s2);
@@ -173,8 +180,11 @@ import * as Stream from '../stream';
 	const a = Stream<number>();
 	const b = Stream<number>();
 
-	const all = Stream.merge([a.map(id), b.map(id)]).map(data => {
+	const ab1 = Stream.merge([a, b]);
+	value = ab1()[0] + ab1()[1];
+	const ab2: Stream<number[]> = Stream.merge([a, b]).map(data => {
 		value = data[0] + data[1];
+		return data;
 	});
 
 	a(1);
@@ -187,8 +197,8 @@ import * as Stream from '../stream';
 }
 
 {
-	const s = Stream();
-	const doubled = Stream.combine(stream => stream * 2, [s]);
+	const s = Stream<number>();
+	const doubled = Stream.combine(stream => stream() * 2, [s]);
 	s.end(true);
 	s(3);
 	console.assert(doubled() === undefined);
@@ -196,7 +206,7 @@ import * as Stream from '../stream';
 
 {
 	const s = Stream(2);
-	const doubled = Stream.combine(stream => stream * 2, [s]);
+	const doubled = Stream.combine(stream => stream() * 2, [s]);
 	s.end(true);
 	s(3);
 	console.assert(doubled() === 4);
@@ -205,24 +215,34 @@ import * as Stream from '../stream';
 {
 	const s = Stream(2);
 	s.end(true);
-	const doubled = Stream.combine(stream => stream * 2, [s]);
+	const doubled = Stream.combine(stream => stream() * 2, [s]);
 	s(3);
 	console.assert(doubled() === undefined);
 }
 
 {
 	const s = Stream(2);
-	const doubled = Stream.combine(stream => stream * 2, [s]);
+	const doubled = Stream.combine(stream => stream() * 2, [s]);
 	doubled.end(true);
 	s(4);
 	console.assert(doubled() === 4);
 }
 
+// map
+
 {
-    const s = Stream("a");
-    const t = s.map(() => 1);
-    const n = t() + 1;
-    console.assert(n === 2);
+	const s = Stream("a");
+	const t = s.map(() => 1);
+	const n = t() + 1;
+	console.assert(n === 2);
+}
+
+{
+	const s = Stream(2);
+	const t = s.map(n => n % 2 === 0 ? n : Stream.SKIP);
+	s(3);
+	const evenNum: number = t();
+	console.assert(evenNum === 2);
 }
 
 // scan

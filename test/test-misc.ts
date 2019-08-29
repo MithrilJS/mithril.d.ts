@@ -2,7 +2,6 @@ import { trust, parseQueryString, buildQueryString } from '..';
 import * as h from '../hyperscript';
 import { render } from '../render';
 import { redraw } from '../redraw';
-import * as withAttr from '../withAttr';
 
 const vnode = trust('Some <strong>bold</strong> text.');
 
@@ -20,6 +19,3 @@ render(document.body, [
 redraw();
 
 redraw.sync();
-
-const handler = withAttr("value", (value) => {});
-handler({currentTarget: {value: 10}});

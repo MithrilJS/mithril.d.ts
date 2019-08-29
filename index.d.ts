@@ -1,8 +1,8 @@
-// Type definitions for Mithril 1.1
-// Project: https://mithril.js.org/
+// Type definitions for Mithril 2.0
+// Project: https://mithril.js.org/, https://github.com/mithriljs/mithril.js
 // Definitions by: Mike Linkovich <https://github.com/spacejack>, András Parditka <https://github.com/andraaspar>, Isiah Meadows <https://github.com/isiahmeadows>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.3
+// TypeScript Version: 3.2
 
 /** Renders a vnode structure into a DOM element. */
 declare function render(el: Element, vnodes: Mithril.Children): void;
@@ -21,11 +21,6 @@ declare function request <T>(url: string, options?: Mithril.RequestOptions<T>): 
 declare function jsonp<T>(options: Mithril.JsonpOptions & { url: string }): Promise<T>; // tslint:disable-line:no-unnecessary-generics
 /** Makes a JSON-P request and returns a promise. */
 declare function jsonp<T>(url: string, options?: Mithril.JsonpOptions): Promise<T>; // tslint:disable-line:no-unnecessary-generics
-
-/** Creates an event handler which takes the value of the specified DOM element property and calls a function with it as the argument. */
-declare function withAttr(name: string, callback: (value: any) => any): (e: { currentTarget: any, [p: string]: any }) => void;
-/** Creates an event handler which takes the value of the specified DOM element property and calls a function with it as the argument. */
-declare function withAttr<T>(name: string, callback: (this: T, value: any) => any, thisArg: T): (e: { currentTarget: any, [p: string]: any }) => void;
 
 declare namespace Mithril {
 	interface Lifecycle<Attrs, State> {
@@ -83,9 +78,9 @@ declare namespace Mithril {
 	}
 
 	interface RouteLinkAttrs extends Attributes {
-		href: string
-		selector?: string | ComponentTypes<any>
-		options?: RouteOptions
+		href: string;
+		selector?: string | ComponentTypes<any>;
+		options?: RouteOptions;
 	}
 
 	interface Route {
@@ -111,7 +106,8 @@ declare namespace Mithril {
 		/** The data to be interpolated into the URL and serialized into the querystring. */
 		params?: { [key: string]: any };
 		/** The data to be serialized into the request body. */
-		body?: any;
+		body?: (XMLHttpRequest["send"] extends (x: infer R) => any ? R : never)
+			| (object & { [id: string]: any });
 		/** Whether the request should be asynchronous. Defaults to true. */
 		async?: boolean;
 		/** A username for HTTP authorization. */
@@ -147,6 +143,8 @@ declare namespace Mithril {
 	interface JsonpOptions {
 		/** The data to be interpolated into the URL and serialized into the querystring. */
 		params?: { [id: string]: any };
+		/** The data to be serialized into the request body. */
+		body?: any;
 		/** A constructor to be applied to each object in the response. */
 		type?: new (o: any) => any;
 		/** The name of the function that will be called as the callback. */
@@ -164,22 +162,29 @@ declare namespace Mithril {
 		sync(): void;
 	}
 
+	type Params = object & ParamsRec;
+
+	interface ParamsRec {
+		// Ideally, it'd be this:
+		// `[key: string | number]: Params | !symbol & !object`
+		[key: string]: string | number | boolean | null | undefined | Params;
+	}
+
 	interface Static extends Hyperscript {
 		route: Route;
 		mount: typeof mount;
-		withAttr: typeof withAttr;
 		render: typeof render;
 		redraw: Redraw;
 		request: typeof request;
 		jsonp: typeof jsonp;
 		/** Returns an object with key/value pairs parsed from a string of the form: ?a=1&b=2 */
-		parseQueryString(queryString: string): { [p: string]: any };
+		parseQueryString(queryString: string): Params;
 		/** Turns the key/value pairs of an object into a string of the form: a=1&b=2 */
-		buildQueryString(values: { [p: string]: any }): string;
+		buildQueryString(values: Params): string;
 		/** Parse path name */
-		parsePathname(url: string): { path: string, params: { [p: string]: any } };
+		parsePathname(url: string): { path: string, params: Params };
 		/** Build path name */
-		buildPathname(template: string, params?: { [p: string]: any }): string;
+		buildPathname(template: string, params?: Params): string;
 	}
 
 	// Vnode children types

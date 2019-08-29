@@ -22,11 +22,6 @@ const FRAME_BUDGET = 100;
 }
 
 {
-	const handler = m.withAttr("value", (value) => {});
-	handler({currentTarget: {value: 10}});
-}
-
-{
 	const params = m.parseQueryString("?a=1&b=2");
 	const query = m.buildQueryString({a: 1, b: 2});
 }
@@ -239,10 +234,15 @@ const FRAME_BUDGET = 100;
 			state.term = vnode.attrs.term || ""; // populated from the `history.state` property if the user presses the back button
 		},
 		view() {
-			return m("form", [
-				m("input[placeholder='Search']", { oninput: m.withAttr("value", v => { state.term = v; }), value: state.term }),
-				m("button", { onclick: state.search }, "Search")
-			]);
+			return m('form', [
+                m("input[placeholder='Search']", {
+                    oninput: (e: { currentTarget: HTMLInputElement }) => {
+                        state.term = e.currentTarget.value;
+                    },
+                    value: state.term,
+                }),
+                m('button', { onclick: state.search }, 'Search'),
+            ]);
 		}
 	};
 
@@ -565,12 +565,14 @@ const FRAME_BUDGET = 100;
 	const Editor = {
 		view() {
 			return [
-				m("textarea.input", {
-					oninput: m.withAttr("value", state.update),
-					value: state.text
-				}),
-				m(".preview", m.trust(marked(state.text))),
-			];
+                m('textarea.input', {
+                    oninput: (e: { currentTarget: HTMLTextAreaElement }) => {
+                        state.update(e.currentTarget.value);
+                    },
+                    value: state.text,
+                }),
+                m('.preview', m.trust(marked(state.text))),
+            ];
 		}
 	};
 
